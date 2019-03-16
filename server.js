@@ -167,7 +167,7 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        projname: req.body.projname,
+        name: req.body.projname,
         contract: req.body.contract
     };
     console.log(response);
