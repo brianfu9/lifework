@@ -73,7 +73,7 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         password: req.body.password,
         project_ids: []
     };
-    clients[Object.keys(clients).length] = response;
+    clients[parseInt(Object.keys(clients).length)] = response;
     console.log(response);
     res.end(JSON.stringify(response));
 })
@@ -147,12 +147,13 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     // Prepare output in JSON format
     // this is filled out
     response = {
-        first_name: req.body.firstname,
-        last_name: req.body.lastname,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        project_ids: []
     };
-    console.log(response);
+    freelancers[parseInt(Object.keys(freelancers).length)] = response;
     res.end(JSON.stringify(response));
 })
 
@@ -225,7 +226,7 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 
 // misc. pages
 app.get('/test', function (req, res) {
-    res.end(JSON.stringify(clients) + JSON.stringify(freelancers) + JSON.stringify(projects));
+    res.end('clients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
 })
 
 var server = app.listen(8081, function () {
