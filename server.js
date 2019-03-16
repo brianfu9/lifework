@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('client-sessions');
 var fs = require('fs');
+var nodemailer = require('nodemailer');
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -23,6 +24,14 @@ app.use(session({
 //         res.setHeader('User-Id', -1);
 //     }
 // });
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'david@gmail.com',
+        pass: 'LifeWorkOnline'
+    }
+});
 
 var clients = {}
 // clients = {
@@ -127,6 +136,22 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
     clients[client_id] = response;
     req.session.user = client_id;
     req.session.user_type = 'client';
+
+    var mailOptions = {
+        from: 'david@gmail.com',
+        to: req.body.email,
+        subject: 'Lifework Account Creation',
+        text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
     fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
@@ -243,6 +268,22 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     freelancers[freelancer_id] = response;
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
+
+    var mailOptions = {
+        from: 'david@gmail.com',
+        to: req.body.email,
+        subject: 'Lifework Account Creation',
+        text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
