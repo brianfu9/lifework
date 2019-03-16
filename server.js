@@ -158,6 +158,27 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
         email: req.body.email,
         password: req.body.password
     };
+    //TODO this
+    var user_id = -1;
+    for (var i = 0; i < freelancers.length; i++) {
+        if (freelancers[i]['email'] == req.body.email) {
+            user_id = i;
+            break;
+        }
+    }
+    if (user_id != -1) {
+        res.render('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+    } else {
+        //TODO salt/hash
+        if (req.body.password === freelancers[i]['password']) {
+            // sets a cookie with the user's info
+            req.session.user = freelancer_id;
+            req.session.user_type = 'freelancer';
+            res.redirect('/freelancer/account/dashboard.html');
+        } else {
+            res.render('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+        }
+    };
     console.log(response);
     res.end(JSON.stringify(response));
 })
@@ -177,7 +198,7 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     var freelancer_id = parseInt(Object.keys(freelancers).length);
     freelancers[freelancer_id] = response;
     req.session.user = freelancer_id;
-    req.session.user_type = 'freelancer'
+    req.session.user_type = 'freelancer';
     console.log(response);
     res.end(JSON.stringify(response));
 })
