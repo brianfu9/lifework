@@ -138,8 +138,8 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
 })
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
-    freelancers[res.session.user_id]['field'] = req.body.lineOfWork;
-    freelancers[res.session.user_id]['hours'] = req.body.typeOfFreelancer;
+    freelancers[res.session.user]['field'] = req.body.lineOfWork;
+    freelancers[res.session.user]['hours'] = req.body.typeOfFreelancer;
     response = {
         typeOfFreelancer: req.body.typeOfFreelancer,
         lineOfWork: req.body.lineOfWork
@@ -170,27 +170,28 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
     };
     //TODO this
     var user_id = -1;
-    for (var i = 0; i < freelancers.length; i++) {
+    for (var i = 0; i < Object.keys(freelancers).length; i++) {
         if (freelancers[i]['email'] == req.body.email) {
             user_id = i;
             break;
         }
-    }
-    if (user_id != -1) {
+    };
+    console.log('user id ' + user_id);
+    if (user_id == -1) {
         res.sendFile('/freelancer/account/login.html', { error: 'Invalid email or password.' });
     } else {
         //TODO salt/hash
-        if (req.body.password === freelancers[i]['password']) {
+        if (req.body.password == freelancers[user_id]['password']) {
             // sets a cookie with the user's info
             req.session.user = user_id;
             req.session.user_type = 'freelancer';
             res.redirect('/freelancer/project/dashboard.html');
         } else {
-            res.sendFile('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+            res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
         }
     };
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
 })
 app.get('/freelancer/account/register.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "register.html");
@@ -295,27 +296,28 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 
 // misc. pages
 app.get('/test', function (req, res) {
-    res.end('clients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
+    res.end('current user:  ' + req.session.user + '\nclients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
 })
 
 // TODO this
 function validateSession() {
-    if (req.session && req.session.user_id) { // Check if session exists
+    if (req.session && req.session.user) { // Check if session exists
         // lookup the user in the DB by pulling their email from the session
-        console.log(req.session.user_id);
-        if (req.session.user_id == -1) {
+        console.log(req.session.user);
+        if (req.session.user == -1) {
             // if the user isn't found in the DB, reset the session info and
             // redirect the user to the login page
             req.session.reset();
             res.redirect('/freelancer/account/login.html');
         } else {
             // expose the user to the template
-            res.locals.user_id = req.session.user_id;
+            res.locals.user_id = req.session.user;
 
             // render the dashboard page
             return;
         }
     } else {
+        console.log('no session');
         res.redirect('/freelancer/account/login.html');
     }
 }
