@@ -49,17 +49,24 @@
                         <fieldset>
                             <p class="pull-center">What kind of freelance work do you do?</p>
                             <div class="form-group">
-                                <input type="text" name="firstname" id="firstname" class="form-control input-lg"
-                                    placeholder="First Name">
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
-                                    I agree to LifeWork's <a href="">terms and conditions</a>
-                                </label>
-                            </div>
+                                    <select class="form-control" id="sel1" name="typeOfFreelancer">
+                                      <option>Graphic Design</option>
+                                      <option>Software Development</option>
+                                      <option>Legal</option>
+                                      <option>Writing</option>
+                                    </select>
+                                  </div>
                             <div>
-                                <input type="submit" class="btn btn-lg btn-primary   value=" Register">
+                                    <p class="pull-center">What type of freelancer are you?</p>
+                                    <div class="form-group">
+                                            <select class="form-control" id="sel1" name="typeOfFreelancer">
+                                              <option>Full-time</option>
+                                              <option>Part-time</option>
+                                              <option>Not sure</option>
+                                            </select>
+                                          </div>
+                                    <div>
+                                <input type="submit" class="btn btn-lg btn-primary pull-center value=" Register">
                             </div>
                         </fieldset>
                     </form>
