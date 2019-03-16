@@ -155,7 +155,8 @@ app.get('/freelancer/account/login.html', function (req, res) {
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-
+        email: req.body.email,
+        password: req.body.password
     };
     console.log(response);
     res.end(JSON.stringify(response));
