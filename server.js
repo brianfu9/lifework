@@ -31,8 +31,8 @@ app.get('/client/account/register.html', function (req, res) {
 app.post('/client/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        first_name: req.body.firstname,
+        last_name: req.body.lastname
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -45,8 +45,7 @@ app.get('/client/project/approvescope.html', function (req, res) {
 app.post('/client/project/approvescope.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+       
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -58,8 +57,7 @@ app.get('/client/project/dashboard.html', function (req, res) {
 app.post('/client/project/dashboard.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -73,8 +71,8 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        typeOfFreelancer: req.body.typeOfFreelancer,
+        lineOfWork: req.body.lineOfWork
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -86,8 +84,7 @@ app.get('/freelancer/account/addpayment.html', function (req, res) {
 app.post('/freelancer/account/addpayment.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -98,8 +95,7 @@ app.get('/freelancer/account/login.html', function (req, res) {
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -109,9 +105,12 @@ app.get('/freelancer/account/register.html', function (req, res) {
 })
 app.post('/freelancer/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
+    // this is filled out
     response = {
         first_name: req.body.firstname,
-        last_name: req.body.lastname
+        last_name: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -124,8 +123,7 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -137,8 +135,7 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -150,8 +147,7 @@ app.get('/freelancer/project/dashboard.html', function (req, res) {
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -163,8 +159,7 @@ app.get('/freelancer/project/fillmilestones.html', function (req, res) {
 app.post('/freelancer/project/fillmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -176,8 +171,7 @@ app.get('/freelancer/project/reviewproject.html', function (req, res) {
 app.post('/freelancer/project/reviewproject.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -195,6 +189,8 @@ app.get('/test.html', function (req, res) {
 })
 app.post('/process_post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
+
+    //template
     response = {
         first_name: req.body.first_name,
         last_name: req.body.last_name
