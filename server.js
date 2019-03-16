@@ -94,8 +94,8 @@ app.get('/freelancer/account/register.html', function (req, res) {
 app.post('/freelancer/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        first_name: req.body.firstname,
+        last_name: req.body.lastname
     };
     console.log(response);
     res.end(JSON.stringify(response));
