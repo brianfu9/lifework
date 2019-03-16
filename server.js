@@ -161,6 +161,42 @@ app.post('/client/project/dashboard.html/post', urlencodedParser, function (req,
     res.end(JSON.stringify(response));
 })
 
+
+app.get('/client/account/login.html', function (req, res) {
+    res.sendFile(__dirname + "/client/account/" + "login.html");
+})
+app.post('/client/account/login.html/post', urlencodedParser, function (req, res) {
+    // Prepare output in JSON format
+    response = {
+        email: req.body.email,
+        password: req.body.password
+    };
+    //TODO this
+    var user_id = -1;
+    for (var i = 0; i < Object.keys(clients).length; i++) {
+        if (clients[i]['email'] == req.body.email) {
+            user_id = i;
+            break;
+        }
+    };
+    console.log('user id ' + user_id);
+    if (user_id == -1) {
+        res.sendFile('/client/account/login.html', { error: 'Invalid email or password.' });
+    } else {
+        //TODO salt/hash
+        if (req.body.password == freelancers[user_id]['password']) {
+            // sets a cookie with the user's info
+            req.session.user = user_id;
+            req.session.user_type = 'freelancer';
+            res.redirect('/client/project/dashboard.html');
+        } else {
+            res.sendFile(__dirname + "/public/client/account/" + "login.html");
+        }
+    };
+    console.log(response);
+    res.sendFile(__dirname + "/public/client/account/" + "login.html");
+})
+
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
 /////////////// FREELANCER PAGES \\\\\\\\\\\\\\\
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
