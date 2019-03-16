@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('client-sessions');
+var fs = require('fs');
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -55,6 +56,15 @@ var projects = {}
 //     freelancer_approved: boolean
 // }
 
+fs.readFile('freelancers.json', 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        if (obj) freelancers = obj;
+    }
+});
+
 app.use(express.static('public'));
 
 //////////////////////\\\\\\\\\\\\\\\\\\\\\\
@@ -106,6 +116,7 @@ app.post('/client/project/approvescope.html/post', urlencodedParser, function (r
 })
 
 app.get('/client/project/dashboard.html', function (req, res) {
+    validateSession();
     res.sendFile(__dirname + "/client/project/" + "dashboard.html");
 })
 app.post('/client/project/dashboard.html/post', urlencodedParser, function (req, res) {
@@ -127,8 +138,8 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
 })
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
-    freelancers[res.session.user]['field'] = req.body.lineOfWork;
-    freelancers[res.session.user]['hours'] = req.body.typeOfFreelancer;
+    freelancers[res.session.user_id]['field'] = req.body.lineOfWork;
+    freelancers[res.session.user_id]['hours'] = req.body.typeOfFreelancer;
     response = {
         typeOfFreelancer: req.body.typeOfFreelancer,
         lineOfWork: req.body.lineOfWork
@@ -149,7 +160,6 @@ app.post('/freelancer/account/addpayment.html/post', urlencodedParser, function 
     res.end(JSON.stringify(response));
 })
 app.get('/freelancer/account/login.html', function (req, res) {
-    req.session.user = user;
     res.sendFile(__dirname + "/freelancer/account/" + "login.html");
 })
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
@@ -167,16 +177,16 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
         }
     }
     if (user_id != -1) {
-        res.render('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+        res.sendFile('/freelancer/account/login.html', { error: 'Invalid email or password.' });
     } else {
         //TODO salt/hash
         if (req.body.password === freelancers[i]['password']) {
             // sets a cookie with the user's info
-            req.session.user = freelancer_id;
+            req.session.user = user_id;
             req.session.user_type = 'freelancer';
-            res.redirect('/freelancer/account/dashboard.html');
+            res.redirect('/freelancer/project/dashboard.html');
         } else {
-            res.render('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+            res.sendFile('/freelancer/account/login.html', { error: 'Invalid email or password.' });
         }
     };
     console.log(response);
@@ -199,6 +209,10 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     freelancers[freelancer_id] = response;
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
+    fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
     res.end(JSON.stringify(response));
 })
@@ -236,7 +250,10 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
-    res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
+    console.log('hello1');
+    validateSession();
+    console.log('hello');
+    // res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
@@ -283,24 +300,23 @@ app.get('/test', function (req, res) {
 
 // TODO this
 function validateSession() {
-    if (req.session && req.session.user) { // Check if session exists
+    if (req.session && req.session.user_id) { // Check if session exists
         // lookup the user in the DB by pulling their email from the session
-        User.findOne({ email: req.session.user.email }, function (err, user) {
-            if (!user) {
-                // if the user isn't found in the DB, reset the session info and
-                // redirect the user to the login page
-                req.session.reset();
-                res.redirect('/login');
-            } else {
-                // expose the user to the template
-                res.locals.user = user;
+        console.log(req.session.user_id);
+        if (req.session.user_id == -1) {
+            // if the user isn't found in the DB, reset the session info and
+            // redirect the user to the login page
+            req.session.reset();
+            res.redirect('/freelancer/account/login.html');
+        } else {
+            // expose the user to the template
+            res.locals.user_id = req.session.user_id;
 
-                // render the dashboard page
-                res.render('dashboard.jade');
-            }
-        });
+            // render the dashboard page
+            return;
+        }
     } else {
-        res.redirect('/login');
+        res.redirect('/freelancer/account/login.html');
     }
 }
 
