@@ -64,6 +64,19 @@ app.post('/client/project/dashboard.html/post', urlencodedParser, function (req,
 
 // FREELANCER PAGES
 // account
+app.get('/freelancer/account/addinfo.html', function (req, res) {
+    res.sendFile(__dirname + "/freelancer/account/" + "addinfo.html");
+})
+app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
+    // Prepare output in JSON format
+    response = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+    };
+    console.log(response);
+    res.end(JSON.stringify(response));
+})
+
 app.get('/freelancer/account/addpayment.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "addpayment.html");
 })
