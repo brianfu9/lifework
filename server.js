@@ -18,8 +18,7 @@ app.get('/client/account/addpayment.html', function (req, res) {
 app.post('/client/account/addpayment.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        
     };
     console.log(response);
     res.end(JSON.stringify(response));
@@ -32,7 +31,9 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
     // Prepare output in JSON format
     response = {
         first_name: req.body.firstname,
-        last_name: req.body.lastname
+        last_name: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password
     };
     console.log(response);
     res.end(JSON.stringify(response));
