@@ -31,6 +31,8 @@ var freelancers = {}
 //         email: string,
 //         password: long,
 //         project_ids: [int]
+//         field: string,
+//         hours: string
 //     }
 // }
 var projects = {}
@@ -63,6 +65,7 @@ app.use(express.static('public'));
 app.get('/client/account/addpayment.html', function (req, res) {
     res.sendFile(__dirname + "/client/account/" + "addpayment.html");
 })
+//TODO this
 app.post('/client/account/addpayment.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
@@ -124,6 +127,8 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
 })
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
+    freelancers[res.session.user]['field'] = req.body.lineOfWork;
+    freelancers[res.session.user]['hours'] = req.body.typeOfFreelancer;
     response = {
         typeOfFreelancer: req.body.typeOfFreelancer,
         lineOfWork: req.body.lineOfWork
@@ -150,8 +155,7 @@ app.get('/freelancer/account/login.html', function (req, res) {
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        email: req.body.email,
-        password: req.body.password
+
     };
     console.log(response);
     res.end(JSON.stringify(response));
