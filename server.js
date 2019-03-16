@@ -1,9 +1,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var TAFFY = require( 'taffy' ).taffy;
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+var clients = TAFFY()
 
 app.use(express.static('public'));
 
