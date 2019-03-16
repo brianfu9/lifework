@@ -1,0 +1,98 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!---*************welcome this is my simple empty strap by John Niro Yumang ******************* -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Create Project - LifeWork</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<head>
+    <script src="jquery/jquery.min.js"></script>
+    <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!---- boostrap.min link local ----->
+
+    <link rel="stylesheet" href="css/style.css">
+    <!---- boostrap.min link local ----->
+
+    <script src="js/bootstrap.min.js"></script>
+    <!---- Boostrap js link local ----->
+
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <!---- Icon link local ----->
+
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <!---- Font awesom link local ----->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="col-sm-12 pt-6" style="height:3em"></div>
+            <h2 class="text-center" id="title">Create a Project</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-3 col-sm-1">
+                    <!-- Bumper -->
+                </div>
+                <div class="col-md-6 col-sm-10">
+                    <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/register.html/post">
+                        <fieldset>
+                            <p class="pull-center">Let us know who you're workign with.</p>
+                            <div class="form-group">
+                                <label class="form">Client Name </label>
+                                <input type="text" name="firstname" id="firstname" class="form-control input-lg"
+                                    placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastname" id="lastname" class="form-control input-lg"
+                                    placeholder="Last Name">
+                            </div>
+                            <label class="form">Client Email </label>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                            </div>
+                            
+                            <label class="form">Project Name </label>
+                            <div class="form-group">
+                                <input type="text" name="projname" id="projname" class="form-control input-lg"
+                                    placeholder="Brand Strategy Memo">
+                            </div>
+                            <div class="form-group">
+                                <label class="form">Upload your contract here: </label>
+                                <input type="file" name="contract" id="contract" accept=".pdf" class="input-lg"
+                                    placeholder="Confirm Password">
+                            </div>
+                            <!-- Need to add form validation -->
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input">
+                                    I agree to LifeWork's <a href="">terms and conditions</a>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="submit" class="btn btn-lg btn-default value=" Next>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="col-md-3 col-sm-1">
+                    <!-------null------>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>
