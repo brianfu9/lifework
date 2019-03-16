@@ -164,7 +164,11 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        projname: req.body.projname,
+        contract: req.body.contract
     };
     console.log(response);
     res.end(JSON.stringify(response));
