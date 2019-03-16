@@ -64,6 +64,22 @@ fs.readFile('freelancers.json', 'utf8', function readFileCallback(err, data) {
         if (obj) freelancers = obj;
     }
 });
+fs.readFile('clients.json', 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        if (obj) clients = obj;
+    }
+});
+fs.readFile('projects.json', 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        if (obj) projects = obj;
+    }
+});
 
 app.use(express.static('public'));
 
@@ -97,7 +113,14 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         password: req.body.password,
         project_ids: []
     };
-    clients[parseInt(Object.keys(clients).length)] = response;
+    var client_id = parseInt(Object.keys(clients).length);
+    clients[client_id] = response;
+    req.session.user = client_id;
+    req.session.user_type = 'client';
+    fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
     res.end(JSON.stringify(response));
 })
