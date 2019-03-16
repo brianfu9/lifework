@@ -7,7 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use(express.static('public'));
 app.get('/index.htm', function (req, res) {
-   res.sendFile( __dirname + "/" + "index.htm" );
+   res.sendFile( __dirname + "/" + "index.html" );
 })
 
 app.post('/process_post', urlencodedParser, function (req, res) {
