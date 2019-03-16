@@ -1,12 +1,49 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var TAFFY = require( 'taffy' );
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-var clients = TAFFY()
+var clients = {}
+// clients = {
+//     id: {
+//         firstname: string,
+//         lastname: string,
+//         email: string,
+//         password: long,
+//         project_ids: [int]
+//     }
+// }
+var freelancers = {}
+// freelancers = {
+//     id: {
+//         firstname: string,
+//         lastname: string,
+//         email: string,
+//         password: long,
+//         project_ids: [int]
+//     }
+// }
+var projects = {}
+// projects = {
+//     id: {
+//         client_id: int,
+//         freelancer_id: int,
+//         name: string,
+//         amount: int, (number of cents)
+//         contract: string, (file location)
+//         milestones: [<milestone_object>]
+//     }
+// }
+// milestone_object = {
+//     date: date_object,
+//     amount: int, (number of cents)
+//     description: string,
+//     feedback: string,
+//     client_approved: boolean,
+//     freelancer_approved: boolean
+// }
 
 app.use(express.static('public'));
 
@@ -30,11 +67,13 @@ app.get('/client/account/register.html', function (req, res) {
 app.post('/client/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        first_name: req.body.firstname,
-        last_name: req.body.lastname,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        project_ids: []
     };
+    clients[Object.keys(clients).length] = response;
     console.log(response);
     res.end(JSON.stringify(response));
 })
@@ -185,19 +224,8 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 
 
 // misc. pages
-app.get('/test.html', function (req, res) {
-    res.sendFile(__dirname + "/" + "test.html");
-})
-app.post('/process_post', urlencodedParser, function (req, res) {
-    // Prepare output in JSON format
-
-    //template
-    response = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
-    };
-    console.log(response);
-    res.end(JSON.stringify(response));
+app.get('/test', function (req, res) {
+    res.end(JSON.stringify(clients) + JSON.stringify(freelancers) + JSON.stringify(projects));
 })
 
 var server = app.listen(8081, function () {
