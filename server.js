@@ -13,6 +13,16 @@ app.use(session({
     duration: 60 * 60 * 1000,
     activeDuration: 10 * 60 * 1000,
 }));
+// app.use(function (req, res, next) {
+//     if (req.session.user) {
+//         res.setHeader('User-Id', req.session.user);
+//     } else {
+//         // setting a property will automatically cause a Set-Cookie response
+//         // to be sent
+//         req.session.user = -1;
+//         res.setHeader('User-Id', -1);
+//     }
+// });
 
 var clients = {}
 // clients = {
