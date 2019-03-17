@@ -19,12 +19,12 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local -----> 
+    <!---- boostrap.min link local ----->
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
 
-    
+
 
     <script src="js/bootstrap.min.js"></script>
     <!---- Boostrap js link local ----->
@@ -35,9 +35,9 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 
-<script src="/js/getheader.js"></script>
+    <script src="/js/getheader.js"></script>
 
-    
+
 </head>
 
 <body>
@@ -51,7 +51,8 @@
             <div class="row pt-1">
                 <div class="">
                     <h3 class="text-center">Uwu fancy dashboard</h3>
-                    <a href="/freelancer/project/addclient.html"><button type="button" class="btn btn-lg btn-primary">Add New Project</button></a>
+                    <a href="/freelancer/project/addclient.html"><button type="button"
+                            class="btn btn-lg btn-primary">Add New Project</button></a>
                 </div>
             </div>
                 <div id="projects" class="">
@@ -65,6 +66,16 @@
                 </div>
         </div>
     </div>
+
+    <script>
+        $.get("http://127.0.0.1:8081/projects", function (data) {
+            var htmlstring = "";
+            for (var i = 0; i < data.length; i++) {
+                htmlstring = htmlstring + `<div class=''> ${data[i]['name']} ${data[i]['client_firstname']} ${data[i]['milestones'][0]['date']}</div>`
+            }
+            $("#projectsbody").html(data);
+        });
+    </script>
     <!-- <script>
             $.get("http://127.0.0.1:8081/user_name", function (data) {
                 if (data) {

@@ -358,6 +358,14 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
     req.session.project = proj_id;
+    fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+    fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
@@ -471,15 +479,6 @@ app.post('/token', function ( req , res) {
     console.log(token);
 
 })
-
-// app.get('/logged_in', function (req, res) {
-//     if (!req.session.user || req.session.user == -1) {
-//         res.end("");
-//     } else {
-//         res.end("1")
-//     }
-// })
-
 
 // TODO this
 function validateSession() {
