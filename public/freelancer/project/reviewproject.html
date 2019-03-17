@@ -53,38 +53,37 @@
                         <div class="card-body justify-content-center">
 
                             <div class="mb-2">
-                            <div class="d-inline-block col-md-3 px-0">Client name</div>
-                                <div class="d-inline-block col-md-3 px-0">
-                                <input class="form-control input-sm" type="text" autocomplete="on" name="fname" value="~first~" disabled>
+                            <div class="d-inline-block col-md-3 px-0">Client First Name</div>
+                                <div class="d-inline-block col-md-3 px-0" id = "clientfname"> 
                                 </div>
-                                <div class="d-inline-block col-md-3 px-0">
-                                        <input class="form-control input-sm" type="text" autocomplete="on" name="lname" value="~last~" disabled>
+                                <div class="d-inline-block col-md-3 px-0">Client Last Name</div>
+                                <div class="d-inline-block col-md-3 px-0" id = "clientlname"> 
                                 </div>
                             </div>
 
                             <div class="mb-2">
                             <div class="d-inline-block col-md-5 px-0">Client Organization</div>
-                            <div class="d-inline-block col-md-5 px-0">
-                            <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~organization~" disabled>
+                            <div class="d-inline-block col-md-5 px-0" id="clientorg">
+                        
                             </div>
                             </div>
 
                             <div class="mb-2">
                                     <div class="d-inline-block col-md-5 px-0">Client Email</div>
-                                    <div class="d-inline-block col-md-5 px-0">
-                                    <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~email address~" disabled>
+                                    <div class="d-inline-block col-md-5 px-0" id="clientemail">
+                                    
                                     </div>
                                     </div>
 
                             <div class="mb-2">
                                     <div class="d-inline-block col-md-5 px-0">Project Name</div>
-                                    <div class="d-inline-block col-md-5 px-0">
-                                    <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~Project Name~" disabled>
+                                    <div class="d-inline-block col-md-5 px-0" id="clientproject">
+                                    
                                     </div>
                                     </div>
 
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                          <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                         </div>
                       </div>
                 <div class="card col-md-5 col-sm-12 px-0 mx-2">
@@ -93,7 +92,7 @@
                                 </div>
                             <div class="card-body">
                               <h5 class="card-title">Milestones</h5>
-                              <form class="form" action="">
+                              <form class="form" action="" id="milestones">
                                 <!-- Need to pull in: Number of milestones, descriptions, amount of money, and date due -->
                                 <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
                                 <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
@@ -117,39 +116,43 @@
         </script> -->
 
         <script>
-                $.get("http://127.0.0.1:8081/projects", function (data) {
+            // TODO: Fix
+                $.get("http://127.0.0.1:8081/project", function (data) {
+                    var no_proj = "<div class=''>Oops. No project is selected.</div>";
+                    if  (!project) {
+                        $("#projbody").html(no_proj);
+                    } else {
                     var htmlstring = "";
                     data = JSON.parse(data);
-                    for (var i = 0; i < data.length; i++) {
-                        htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/approve_milestone">`
-                        var milestone_date = '';
-                        var milestone_index = -1;
-                        if (data[i]['milestones'].length > 0) {
-                            var s = 0;
-                            data[i]['milestones'].forEach(function(m) {
-                                milestone_index = milestone_index + 1;
-                                if (!m['freelancer_approved'] && !s) {
-                                    console.log(m['freelancer_approved'] + m['description'])
-                                    milestone_date = m['date'] + ": " + m['description'];
-                                    s = 1;
-                                }
-                                break;
-                            }) 
-        
-                            milestone_date = data[i]['milestones'][0]['date'] + data[i]['milestones'][0]['description'];
-                        }
-                        // add row container
-                        htmlstring = htmlstring + '<div class="row">'
-                        htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
-                        htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
-                        htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
-                        htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`
-                        htmlstring = htmlstring + '</div>'
-                        //end row container
-                        htmlstring = htmlstring +  `</form>`
+                    projects[data][''];
+                    var i = 0;
+                    if (data[i]['milestones'].length > 0) {
+                        data[i]['milestones'].forEach(function(m){
+                            i = i + 1;
+                            htmlstring = htmlstring + `<div class="">Milestone `+1`: `+m['description']+`</div>`;
+                            htmlstring = htmlstring + `<div class="">Date Due: `+ m['date'] +`</div>`;
+                            htmlstring = htmlstring + `<input class="form-control input-lg mb-4" type="text" autocomplete="on" value="`+100 * parseFloat(m['amount']) +`" disabled>`;
+                        })
                     }
-                    $("#projectsbody").html(htmlstring);
-                });
+                    //var milestoneform = `<div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>`;
+
+
+                    
+
+                    var cfname = `<input class="form-control input-sm" type="text" autocomplete="on" name="fname" value="${fname}" disabled>`;
+                    var clname = `<input class="form-control input-sm" type="text" autocomplete="on" name="lname" value="${lname}" disabled>`;
+                    $("clientfname").html(cfname);
+                    $("clientlname").html(clname);
+                    var clientorg = `<input class="form-control input-sm" type="text" autocomplete="on" name="company" value="${corg}" disabled>`;
+                    $("clientorg").html(corg);
+                    
+                    var cemail = `<input class="form-control input-sm" type="text" autocomplete="on" name="email" value="${cemail}" disabled>`;
+                    $("clientorg").html(cemail);
+
+                    var cproject = `<input class="form-control input-sm" type="text" autocomplete="on" name="proj" value="${cproj}" disabled>`
+                    $("milestones").html(cproj);
+                    }}
+                );
             </script>
 
 
