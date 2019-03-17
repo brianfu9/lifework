@@ -104,6 +104,16 @@
         </div>
     </div>
     </div>
+
+    <script>
+        $.get("http://localhost:8081/logged_in", function (data) {
+            if (data) {
+                $("#header").load("../logged_in_nav.html"); 
+            } else {
+                $("#header").load("../logged_out_nav.html"); 
+            }
+        })
+    </script>
 </body>
 
 </html>
