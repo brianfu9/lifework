@@ -343,7 +343,8 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         lastname: req.body.lastname,
         email: req.body.email,
         name: req.body.projname,
-        contract: req.body.contract
+        contract: req.body.contract,
+        amount: int(parseFloat(req.body.amount) * 100)
     };
     // var proj_id = parseInt(Object.keys(projects).length);
     // projects[proj_id] = response;
