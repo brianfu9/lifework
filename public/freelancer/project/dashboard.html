@@ -70,10 +70,15 @@
     <script>
         $.get("http://127.0.0.1:8081/projects", function (data) {
             var htmlstring = "";
+            data = JSON.parse(data);
             for (var i = 0; i < data.length; i++) {
-                htmlstring = htmlstring + `<div class=''> ${data[i]['name']} ${data[i]['client_firstname']}</div>`
+                // add row container
+                htmlstring = htmlstring + '<div class="row">'
+                htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${data[i]['milestones'][0]['date']} </div>`
+                htmlstring = htmlstring + '</div>'
+                //end row container
             }
-            $("#projectsbody").html(data);
+            $("#projectsbody").html(htmlstring);
         });
     </script>
     <!-- <script>
