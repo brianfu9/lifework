@@ -1,19 +1,25 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var session = require('client-sessions');
+// var session = require('client-sessions');
+var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(session({
-    cookieName: 'session',
-    secret: 'blarfelarg_the_great_hat_permuter',
-    duration: 60 * 60 * 1000,
-    activeDuration: 10 * 60 * 1000,
-}));
+app.use(session({secret: 'ssshhhhh'}));
+
+var sess;
+// sess=req.session;
+
+// app.use(session({
+//     cookieName: 'session',
+//     secret: 'blarfelarg_the_great_hat_permuter',
+//     duration: 60 * 60 * 1000,
+//     activeDuration: 10 * 60 * 1000,
+// }));
 // app.use(function (req, res, next) {
 //     if (req.session.user) {
 //         res.setHeader('User-Id', req.session.user);
@@ -236,14 +242,18 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
 })
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
-    freelancers[res.session.user]['field'] = req.body.lineOfWork;
-    freelancers[res.session.user]['hours'] = req.body.typeOfFreelancer;
+    freelancers[req.session.user]['field'] = req.body.lineOfWork;
+    freelancers[req.session.user]['hours'] = req.body.typeOfFreelancer;
     response = {
         typeOfFreelancer: req.body.typeOfFreelancer,
         lineOfWork: req.body.lineOfWork
     };
+    fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.sendFile(__dirname + "/public/freelancer/project/" + "dashboard.html");
 })
 
 app.get('/freelancer/account/addpayment.html', function (req, res) {
@@ -316,13 +326,13 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     //     text: 'That was easy!'
     // };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //     if (error) {
+    //         console.log(error);
+    //     } else {
+    //         console.log('Email sent: ' + info.response);
+    //     }
+    // });
 
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
