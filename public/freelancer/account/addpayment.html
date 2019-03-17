@@ -1,6 +1,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0//css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <!---*************welcome this is my simple empty strap by John Niro Yumang ******************* -->
@@ -45,7 +46,7 @@
                     <!-- Bumper -->
                 </div>
                 <div class="col-md-4 col-sm-8">
-                    
+
                 </div>
 
                 <div class="col-md-4 col-sm-2">
@@ -56,14 +57,30 @@
         </div>
     </div>
     <script>
-            $.get("http://localhost:8081/logged_in", function (data) {
-                if (data == "1") {
-                    $("#header").load("../logged_in_nav.html"); 
-                } else {
-                    $("#header").load("../logged_out_nav.html"); 
-                }
+        var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
+        stripe.createToken('bank_account', {
+            country: 'US',
+            currency: 'usd',
+            routing_number: '110000000',
+            account_number: '000123456789',
+            account_holder_name: 'Jenny Rosen',
+            account_holder_type: 'individual',
+        }).then(function (result) {
+            $.post("http://localhost:8081/token", function (data) {
+                pass;
             })
-        </script>
+
+        });
+    </script>
+    <script>
+        $.get("http://localhost:8081/logged_in", function (data) {
+            if (data == "1") {
+                $("#header").load("../logged_in_nav.html");
+            } else {
+                $("#header").load("../logged_out_nav.html");
+            }
+        })
+    </script>
 </body>
 
 
