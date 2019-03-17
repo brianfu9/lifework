@@ -428,6 +428,10 @@ app.get('/user_name', function (req, res) {
     res.end(freelancers[req.session.user]['firstname']);
 })
 
+app.get('/logged_in', function (req, res) {
+    res.end(req.session.user != -1);
+})
+
 // TODO this
 function validateSession() {
     if (req.session && req.session.user) { // Check if session exists
