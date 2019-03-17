@@ -43,33 +43,37 @@
             <hr>
             <div class="row">
                 
-                <div class="col-md-4 col-sm-8">
+                <div class="">
 
-                        <div class="">
+                        <div class="card">
+                            <div class="card-header">
+                                <p>Connect Payment Method<p>
+                            </div>
+                            <div class="card-body">
                                 <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
                                     <fieldset>
                                             <div class="mb-2">
                                                     <div class="d-inline-block col-md-3 px-0">Account Holder Name</div>
                                                         <div class="d-inline-block col-md-4 px-4">
-                                                                <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" value="Full Name">
+                                                                <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" placeholder="Full Name">
                                                         </div>
                                                 </div>
                                         <div class="mb-2">
                                             <div class="d-inline-block col-md-3 px-0">Routing Information</div>
                                                 <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" value="Account Number">
+                                                        <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" placeholder="Account Number">
                                                 </div>
                                                 <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-sm" type="text" autocomplete="off" name="routing_number" value="Routing Number">
+                                                        <input class="form-control input-sm" type="text" autocomplete="off" name="routing_number" placeholder="Routing Number">
                                                 </div>
                                         </div>
                                         <!-- Need to add form validation -->
-                                        <div class="pull-center">
-                                            <a href = "register.html"><button type="button" class="btn btn-sm btn-default pull-center" href="register.html">Sign up</button></a>
-                                            <input type="submit" class="btn btn-lg btn-default" value="Login">
+                                        <div class="mx-auto">
+                                            <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment">
                                         </div>
                                     </fieldset>
                                 </form>
+                                </div>
                             </div>
 
                 </div>

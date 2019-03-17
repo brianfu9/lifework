@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var stripe = require("stripe")("sk_test_YtKktLT1oLw3uilqbLwWi9Ij");
-var elements = stripe.elements();
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -53,19 +51,19 @@ var freelancers = {}
 //     }
 // }
 var projects = {}
-// projects = {
-//     id: {
-//         client_id: int,
-//         client_firstname: string,
-//         client_lastname: string,
-//         client_email: string
-//         freelancer_id: int,
-//         name: string,
-//         amount: int, (number of cents)
-//         contract: string, (file location)
-//         milestones: [<milestone_object>],
-//     }
-// }
+    // projects = {
+    //     id: {
+    //         client_id: int,
+    //         client_firstname: string,
+    //         client_lastname: string,
+    //         client_email: string
+    //         freelancer_id: int,
+    //         name: string,
+    //         amount: int, (number of cents)
+    //         contract: string, (file location)
+    //         milestones: [<milestone_object>],
+    //     }
+    // }
 // milestone_object = {
 //     date: date_object,
 //     amount: int, (number of cents)
@@ -252,12 +250,6 @@ app.get('/freelancer/account/addpayment.html', function (req, res) {
 })
 app.post('/freelancer/account/addpayment.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
-    const account = stripe.accounts.create({
-        country: 'US',
-        type: 'custom',
-        requested_capabilities: ['card_payments'],
-    });
-    freelancers[req.session.user]['stripe_id'] = account;
     response = {
 
     };
@@ -360,14 +352,6 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
     req.session.project = proj_id;
-    fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
-        if (err) throw err;
-        console.log('The file has been saved!');
-    });
-    fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
-        if (err) throw err;
-        console.log('The file has been saved!');
-    });
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
@@ -390,13 +374,9 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         'feedback': '',
         'client_approved': false,
         'freelancer_approved': false,
-
+        
     };
     projects[req.session.project]['milestones'].push(response);
-    fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
-        if (err) throw err;
-        console.log('The file has been saved!');
-    });
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
@@ -445,10 +425,10 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 // API STRUCTURE
 app.get('/test', function (req, res) {
     res.end(
-        'current user:  ' + req.session.user +
-        '\ncurrent project:  ' + req.session.project +
-        '\nclients:     ' + JSON.stringify(clients) +
-        '\nfreelancers: ' + JSON.stringify(freelancers) +
+        'current user:  ' + req.session.user + 
+        '\ncurrent project:  ' + req.session.project + 
+        '\nclients:     ' + JSON.stringify(clients) + 
+        '\nfreelancers: ' + JSON.stringify(freelancers) + 
         '\nprojects:    ' + JSON.stringify(projects));
 })
 
@@ -457,23 +437,13 @@ app.get('/user_name', function (req, res) {
 })
 
 app.get('/logged_in', function (req, res) {
-    // if (!req.session.user || req.session.user == -1) {
-    //     console.log("user (not logged in) is "+ req.session.user);
-    //     res.end("-1");
-    // } else {
-    //     console.log("user is " + req.session.user);
-    //     res.end("1")
-    // }
-    console.log("logged in? User is " + req.session.user);
-    res.end(toString(req.session.user));
-})
-
-app.get('/projects', function (req, res) {
-    projects = []
-    freelancers[req.session.user]['project_ids'].forEach(function(i) {
-        projects.push(projects[i]);
-    })
-    res.end(projects);
+    if (!req.session.user || req.session.user == -1) {
+        console.log("user is "+req.session.user)
+        res.send("");
+    } else {
+        console.log("user is " + req.session.user)
+        res.send("1")
+    }
 })
 
 // app.get('/logged_in', function (req, res) {
