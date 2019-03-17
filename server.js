@@ -26,11 +26,13 @@ app.use(session({
 // });
 
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
     auth: {
-        user: 'david@gmail.com',
-        pass: 'LifeWorkOnline'
-    }
+        user: 'david@lifeworkonline.com',
+        pass: 'yydysgidhrzkgngm'
+    },
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true
 });
 
 var clients = {}
@@ -306,12 +308,12 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
 
-    var mailOptions = {
-        from: 'david@gmail.com',
-        to: req.body.email,
-        subject: 'Lifework Account Creation',
-        text: 'That was easy!'
-    };
+    // var mailOptions = {
+    //     from: 'david@gmail.com',
+    //     to: req.body.email,
+    //     subject: 'Lifework Account Creation',
+    //     text: 'That was easy!'
+    // };
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -326,7 +328,7 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
         console.log('The file has been saved!');
     });
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.sendFile(__dirname + "/public/freelancer/account/" + "addinfo.html");
 })
 
 // project
