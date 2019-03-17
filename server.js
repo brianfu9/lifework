@@ -132,32 +132,17 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         password: req.body.password,
         project_ids: []
     };
-    var client_id = parseInt(Object.keys(clients).length);
+    var client_id = parseInt(Object.keys(clients).length + 1);
     clients[client_id] = response;
     req.session.user = client_id;
     req.session.user_type = 'client';
-
-    var mailOptions = {
-        from: 'david@gmail.com',
-        to: req.body.email,
-        subject: 'Lifework Account Creation',
-        text: 'That was easy!'
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
 
     fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     });
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.redirect("/client/project/" + "dashboard.html");
 })
 
 // project
@@ -314,21 +299,6 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     freelancers[freelancer_id] = response;
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
-
-    // var mailOptions = {
-    //     from: 'david@gmail.com',
-    //     to: req.body.email,
-    //     subject: 'Lifework Account Creation',
-    //     text: 'That was easy!'
-    // };
-
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //         console.log(error);
-    //     } else {
-    //         console.log('Email sent: ' + info.response);
-    //     }
-    // });
 
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
