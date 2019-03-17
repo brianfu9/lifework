@@ -348,10 +348,10 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         amount: Math.floor(parseFloat(req.body.amount) * 100),
         milestones: [],
     };
-
     var proj_id = parseInt(Object.keys(projects).length);
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
+    req.session.project = proj_id;
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
@@ -361,33 +361,29 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
 })
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
+    var amount;
+    if (req.body.unitOfMoney == 'percent') {
+        amount = Math.ceil(parseFloat(req.body.amount) / 100 * projects[req.session.project]['amount']);
+    } else {
+        amount = Math.floor(parseFloat(req.body.amount) * 100);
+    }
     response = {
-        date: req.body.date,
-        amount: req.body.amount,
-        unitOfMoney: req.body.unitOfMoney,
-        description: req.body.desc,
-        feedback: '',
-        client_approved: false,
-        freelancer_approved: false,
-
+        'date': req.body.date,
+        'amount': amount,
+        'description': req.body.desc,
+        'feedback': '',
+        'client_approved': false,
+        'freelancer_approved': false,
+        
     };
-    // milestone_object = {
-//     date: date_object,
-//     amount: int, (number of cents)
-//     description: string,
-//     feedback: string,
-//     client_approved: boolean,
-//     freelancer_approved: boolean
-// }
+    projects[req.session.project]['milestones'].push(response);
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.redirect("/freelancer/project/" + "addmilestones.html");
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
-    console.log('hello1');
     validateSession();
-    console.log('hello');
-    // res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
+    res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
@@ -428,7 +424,12 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 
 // API STRUCTURE
 app.get('/test', function (req, res) {
-    res.end('current user:  ' + req.session.user + '\nclients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
+    res.end(
+        'current user:  ' + req.session.user + 
+        '\ncurrent project:  ' + req.session.project + 
+        '\nclients:     ' + JSON.stringify(clients) + 
+        '\nfreelancers: ' + JSON.stringify(freelancers) + 
+        '\nprojects:    ' + JSON.stringify(projects));
 })
 
 app.get('/user_name', function (req, res) {
@@ -436,7 +437,6 @@ app.get('/user_name', function (req, res) {
 })
 
 app.get('/logged_in', function (req, res) {
-    console.log(req.session.user);
     if (!req.session.user || req.session.user == -1) {
         res.end("");
     } else {
@@ -444,14 +444,13 @@ app.get('/logged_in', function (req, res) {
     }
 })
 
-app.get('/logged_in', function (req, res) {
-    console.log(req.session.user);
-    if (!req.session.user || req.session.user == -1) {
-        res.end("");
-    } else {
-        res.end("1")
-    }
-})
+// app.get('/logged_in', function (req, res) {
+//     if (!req.session.user || req.session.user == -1) {
+//         res.end("");
+//     } else {
+//         res.end("1")
+//     }
+// })
 
 
 // TODO this
