@@ -35,10 +35,11 @@
     <!---- Font awesom link local ----->
 
 <script src="/js/getheader.js"></script>
+<script src="/js/validatelogin.js"></script>
 </head>
 
 <body>
-    <div id="header" class="pb-2 mb-1"></div>
+    <div id="header" class="pb-4 mb-1"></div>
     <div class="container-fluid">
         <div class="container">
             <div class="col-sm-12 pt-6" style="height:3em"></div>
@@ -107,9 +108,9 @@
 <script>
         $.get("http://127.0.0.1:8081/user_name", function (data) {
             if (data) {
-                $("#header").load("../logged_in_nav.html");
+                $("#title").html("Welecome, " + data + "!");
             } else {
-            $("#title").html("Welcome, " + data + "!");
+            $("#title").html("Welcome!");
             }
         });
     </script>

@@ -39,12 +39,13 @@
     <!---- Font awesom link local ----->
 
 <script src="/js/getheader.js"></script>
+<script src="/js/validatelogin.js"></script>
 
     
 </head>
 
 <body>
-    <div id="header" class="pb-2 mb-1"></div>
+    <div id="header" class="pb-4 mb-1"></div>
     <div class="container-fluid">
         <div class="container">
             <div class="col-sm-12 pt-6" style="height:3em"></div>
@@ -101,7 +102,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <!-- <script>
             $.get("http://localhost:8081/logged_in", function (data) {
                 if (data == "1") {
                     $("#header").load("../logged_in_nav.html"); 
@@ -109,6 +110,6 @@
                     $("#header").load("../logged_out_nav.html"); 
                 }
             })
-        </script> 
+        </script>  -->
 </body>
 </html>
