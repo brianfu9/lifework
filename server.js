@@ -454,11 +454,15 @@ app.get('/user_name', function (req, res) {
 })
 
 app.get('/logged_in', function (req, res) {
-    if (!req.session.user || req.session.user == -1) {
-        res.end("");
-    } else {
-        res.end("1")
-    }
+    // if (!req.session.user || req.session.user == -1) {
+    //     console.log("user (not logged in) is "+ req.session.user);
+    //     res.end("-1");
+    // } else {
+    //     console.log("user is " + req.session.user);
+    //     res.end("1")
+    // }
+    console.log("logged in? User is " + req.session.user);
+    res.end(toString(req.session.user));
 })
 
 // app.get('/logged_in', function (req, res) {
