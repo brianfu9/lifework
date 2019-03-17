@@ -402,6 +402,7 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 app.get('/test', function (req, res) {
     res.end(
         'current user:  ' + req.session.user + 
+        '\ncurrent user type: ' + req.session.user_type + 
         '\ncurrent project:  ' + req.session.project + 
         '\nclients:     ' + JSON.stringify(clients) + 
         '\nfreelancers: ' + JSON.stringify(freelancers) + 
