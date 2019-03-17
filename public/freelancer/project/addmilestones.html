@@ -74,10 +74,10 @@
                                     <div class="d-inline-block col-md-3 px-0">Milestone Payment Details</div>
                                     <!-- <input type="date" class="hide-replaced col-sm-12 col-md-4" value="date"> -->
                                     <div class="d-inline-block col-md-4 px-4">
-                                    <input type="text" class="form-control input-lg col-sm-10 col-md-4" id="amount" name="amount" placeholder="100.00">
+                                    <input type="text" class="form-control input-lg" id="amount" name="amount" placeholder="100.00">
                                     </div>
                                     <div class="d-inline-block col-md-4 px-4">
-                                    <select class="form-control input-lg col-sm-2 col-md-4" id="unitOfMoney" name="unitOfMoney">
+                                    <select class="form-control input-lg" id="unitOfMoney" name="unitOfMoney">
                                         <option value="percent">Percent (%)</option>
                                         <option value="dollars">US Dollars ($)</option>
                                     </select>
@@ -111,9 +111,11 @@
 
     <script>
         $.get("http://localhost:8081/logged_in", function (data) {
-            if (data == "1") {
+            if (parseInt(data) > -1) {
+                alert("you are logged in");
                 $("#header").load("../logged_in_nav.html"); 
             } else {
+                alert("user id is " + data);
                 $("#header").load("../logged_out_nav.html"); 
             }
         })
