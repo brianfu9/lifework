@@ -24,7 +24,6 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "ggscript": "0.0.3",
     "js": "^0.1.0",
     "jsonfile": "^5.0.0",
     "multer": "^1.4.1",

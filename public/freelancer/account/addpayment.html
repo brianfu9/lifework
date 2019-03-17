@@ -42,16 +42,38 @@
             <h2 class="text-center" id="title">Add payment method</h2>
             <hr>
             <div class="row">
-                <div class="col-md-4 col-sm-2">
-                    <!-- Bumper -->
-                </div>
+                
                 <div class="col-md-4 col-sm-8">
 
+                        <div class="">
+                                <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
+                                    <fieldset>
+                                            <div class="mb-2">
+                                                    <div class="d-inline-block col-md-3 px-0">Account Holder Name</div>
+                                                        <div class="d-inline-block col-md-4 px-4">
+                                                                <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" value="Full Name">
+                                                        </div>
+                                                </div>
+                                        <div class="mb-2">
+                                            <div class="d-inline-block col-md-3 px-0">Routing Information</div>
+                                                <div class="d-inline-block col-md-4 px-4">
+                                                        <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" value="Account Number">
+                                                </div>
+                                                <div class="d-inline-block col-md-4 px-4">
+                                                        <input class="form-control input-sm" type="text" autocomplete="off" name="routing_number" value="Routing Number">
+                                                </div>
+                                        </div>
+                                        <!-- Need to add form validation -->
+                                        <div class="pull-center">
+                                            <a href = "register.html"><button type="button" class="btn btn-sm btn-default pull-center" href="register.html">Sign up</button></a>
+                                            <input type="submit" class="btn btn-lg btn-default" value="Login">
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+
                 </div>
 
-                <div class="col-md-4 col-sm-2">
-                    <!-------null------>
-                </div>
 
             </div>
         </div>
