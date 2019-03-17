@@ -382,10 +382,8 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
-    console.log('hello1');
     validateSession();
-    console.log('hello');
-    // res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
+    res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
