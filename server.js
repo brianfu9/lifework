@@ -4,11 +4,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-<<<<<<< HEAD
-=======
 var stripe = require("stripe")("sk_test_YtKktLT1oLw3uilqbLwWi9Ij");
 // var elements = stripe.elements();
->>>>>>> da0b59283d72fe7fd3efd60cf2fbcf58a6122453
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -440,24 +437,13 @@ app.get('/user_name', function (req, res) {
 })
 
 app.get('/logged_in', function (req, res) {
-<<<<<<< HEAD
     if (!req.session.user || req.session.user == -1) {
-        console.log("user is "+req.session.user)
-        res.send("");
+        console.log("user (not logged in) is "+ req.session.user);
+        res.end("-1");
     } else {
-        console.log("user is " + req.session.user)
-        res.send("1")
+        console.log("user is " + req.session.user);
+        res.end("1")
     }
-=======
-    // if (!req.session.user || req.session.user == -1) {
-    //     console.log("user (not logged in) is "+ req.session.user);
-    //     res.end("-1");
-    // } else {
-    //     console.log("user is " + req.session.user);
-    //     res.end("1")
-    // }
-    console.log("logged in? User is " + req.session.user);
-    res.end(toString(req.session.user));
 })
 
 app.get('/projects', function (req, res) {
@@ -466,7 +452,6 @@ app.get('/projects', function (req, res) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
->>>>>>> da0b59283d72fe7fd3efd60cf2fbcf58a6122453
 })
 
 // app.get('/logged_in', function (req, res) {
