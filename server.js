@@ -362,12 +362,14 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        date: 
-        amount:
-        description:
-        feedback:
-        client_approved:
-        freelancer_approved:
+        date: req.body.date,
+        amount: req.body.amount,
+        unitOfMoney: req.body.unitOfMoney,
+        description: req.body.desc,
+        feedback: '',
+        client_approved: false,
+        freelancer_approved: false,
+        
     };
     // milestone_object = {
 //     date: date_object,
