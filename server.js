@@ -51,17 +51,19 @@ var freelancers = {}
 //     }
 // }
 var projects = {}
-// projects = {
-//     id: {
-//         client_id: int,
-//         freelancer_id: int,
-//         name: string,
-//         amount: int, (number of cents)
-//         contract: string, (file location)
-//         milestones: [<milestone_object>],
-//         client_email: string
-//     }
-// }
+    // projects = {
+    //     id: {
+    //         client_id: int,
+    //         client_firstname: string,
+    //         client_lastname: string,
+    //         client_email: string
+    //         freelancer_id: int,
+    //         name: string,
+    //         amount: int, (number of cents)
+    //         contract: string, (file location)
+    //         milestones: [<milestone_object>],
+    //     }
+    // }
 // milestone_object = {
 //     date: date_object,
 //     amount: int, (number of cents)
@@ -329,25 +331,29 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     res.redirect("/freelancer/account/" + "addinfo.html");
 })
 
-// project
+// PROJECT
 app.get('/freelancer/project/addclient.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/project/" + "addclient.html");
 })
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
+        client_id: -1,
+        client_firstname: req.body.firstname,
+        client_lastname: req.body.lastname,
+        client_email: req.body.email,
+        freelancer_id: req.session.user,
         name: req.body.projname,
         contract: req.body.contract,
-        amount: int(parseFloat(req.body.amount) * 100)
+        amount: Math.floor(parseFloat(req.body.amount) * 100),
+        milestones: [],
     };
-    // var proj_id = parseInt(Object.keys(projects).length);
-    // projects[proj_id] = response;
-    // freelancers[req.session.user]['project_ids'].push(proj_id);
+
+    var proj_id = parseInt(Object.keys(projects).length);
+    projects[proj_id] = response;
+    freelancers[req.session.user]['project_ids'].push(proj_id);
     console.log(response);
-    res.end(JSON.stringify(response));
+    res.redirect("/freelancer/project/" + "addmilestones.html");
 })
 
 app.get('/freelancer/project/addmilestones.html', function (req, res) {
@@ -356,8 +362,21 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     response = {
-
+        date: 
+        amount:
+        description:
+        feedback:
+        client_approved:
+        freelancer_approved:
     };
+    // milestone_object = {
+//     date: date_object,
+//     amount: int, (number of cents)
+//     description: string,
+//     feedback: string,
+//     client_approved: boolean,
+//     freelancer_approved: boolean
+// }
     console.log(response);
     res.end(JSON.stringify(response));
 })
@@ -400,13 +419,12 @@ app.post('/freelancer/project/reviewproject.html/post', urlencodedParser, functi
     console.log(response);
     res.end(JSON.stringify(response));
 })
-
-// external
 app.get('/freelancer/addstripe.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/" + "addstripe.html");
 })
 
-// misc. pages
+
+// API STRUCTURE
 app.get('/test', function (req, res) {
     res.end('current user:  ' + req.session.user + '\nclients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
 })
@@ -422,8 +440,17 @@ app.get('/logged_in', function (req, res) {
     } else {
         res.end("1")
     }
-
 })
+
+app.get('/logged_in', function (req, res) {
+    console.log(req.session.user);
+    if (!req.session.user || req.session.user == -1) {
+        res.end("");
+    } else {
+        res.end("1")
+    }
+})
+
 
 // TODO this
 function validateSession() {
