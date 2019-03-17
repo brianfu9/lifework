@@ -26,11 +26,13 @@ app.use(session({
 // });
 
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
     auth: {
-        user: 'david@gmail.com',
-        pass: 'LifeWorkOnline'
-    }
+        user: 'david@lifeworkonline.com',
+        pass: 'yydysgidhrzkgngm'
+    },
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true
 });
 
 var clients = {}
