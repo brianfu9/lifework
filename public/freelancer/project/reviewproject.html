@@ -35,29 +35,65 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 </head>
-
+<!-- We need to pull  -->
 <body>
     <div class="container-fluid">
         <div class="container">
-            <div class="row py-2">
+            <div class="row py-2 justify-content-center">
                 <div class="card col-md-5 col-sm-12 px-0 mx-2">
                         <div class="card-header">
-                        <h5 class="">Featured</h5>
+                        <h5 class="">Client Information</h5>
                         </div>
-                        <div class="card-body">
-                          <h5 class="card-title">Special title treatment</h5>
+                        <div class="card-body justify-content-center">
+
+                            <div class="mb-2">
+                            <div class="d-inline-block col-md-3 px-0">Client name</div>
+                                <div class="d-inline-block col-md-3 px-0">
+                                <input class="form-control input-sm" type="text" autocomplete="on" name="fname" value="~first~" disabled>
+                                </div>
+                                <div class="d-inline-block col-md-3 px-0">
+                                        <input class="form-control input-sm" type="text" autocomplete="on" name="lname" value="~last~" disabled>
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                            <div class="d-inline-block col-md-5 px-0">Client Organization</div>
+                            <div class="d-inline-block col-md-5 px-0">
+                            <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~organization~" disabled>
+                            </div>
+                            </div>
+
+                            <div class="mb-2">
+                                    <div class="d-inline-block col-md-5 px-0">Client Email</div>
+                                    <div class="d-inline-block col-md-5 px-0">
+                                    <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~email address~" disabled>
+                                    </div>
+                                    </div>
+
+                            <div class="mb-2">
+                                    <div class="d-inline-block col-md-5 px-0">Project Name</div>
+                                    <div class="d-inline-block col-md-5 px-0">
+                                    <input class="form-control input-sm" type="text" autocomplete="on" name="company" value="~Project Name~" disabled>
+                                    </div>
+                                    </div>
+
                           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                           <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                       </div>
                 <div class="card col-md-5 col-sm-12 px-0 mx-2">
                         <div class="card-header">
-                                <h5 class="">Featured</h5>
+                                <h5 class="">Contract Information</h5>
                                 </div>
                             <div class="card-body">
-                              <h5 class="card-title">Special title treatment</h5>
-                              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                              <a href="#" class="btn btn-primary">Go somewhere</a>
+                              <h5 class="card-title">Milestones</h5>
+                              <form class="form" action="">
+                                <!-- Need to pull in: Number of milestones, descriptions, amount of money, and date due -->
+                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
+                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
+                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
+                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
+                              </form>
                             </div>
                           </div>
                         </div>

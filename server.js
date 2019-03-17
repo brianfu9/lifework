@@ -110,6 +110,7 @@ app.use(express.static('public'));
 app.get('/client/account/addpayment.html', function (req, res) {
     res.sendFile(__dirname + "/client/account/" + "addpayment.html");
 })
+
 //TODO this
 app.post('/client/account/addpayment.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
