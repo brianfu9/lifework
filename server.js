@@ -226,6 +226,12 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
 
 // account
+
+app.get('/logout', function (req, res) {
+    req.session.destroy()
+    //res.end(req.session.user);
+})
+
 app.get('/freelancer/account/addinfo.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "addinfo.html");
 })
