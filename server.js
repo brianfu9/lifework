@@ -176,9 +176,9 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
             break;
         }
     };
-    console.log('user id ' + user_id);
+    console.log('login user id ' + user_id);
     if (user_id == -1) {
-        res.sendFile('/client/account/login.html', { error: 'Invalid email or password.' });
+        res.sendFile(__dirname + "/public/client/account/" + "login.html");
     } else {
         //TODO salt/hash
         if (req.body.password == clients[user_id]['password']) {
