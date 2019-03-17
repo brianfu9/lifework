@@ -107,7 +107,7 @@
 
     <script>
         $.get("http://localhost:8081/logged_in", function (data) {
-            if (data) {
+            if (data == '1') {
                 $("#header").load("../logged_in_nav.html"); 
             } else {
                 $("#header").load("../logged_out_nav.html"); 
