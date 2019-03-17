@@ -44,6 +44,8 @@
 </head>
 
 <body>
+    <div id="header" class="pb-2 mb-1"></div>
+
     <div class="container-fluid">
         <div class="container">
             <div class="col-sm-12 pt-6" style="height:3em"></div>
@@ -100,6 +102,15 @@
             </div>
         </div>
     </div>
+    <script>
+            $.get("http://localhost:8081/logged_in", function (data) {
+                if (data == "1") {
+                    $("#header").load("../logged_in_nav.html"); 
+                } else {
+                    $("#header").load("../logged_out_nav.html"); 
+                }
+            })
+        </script>
 </body>
 
 
