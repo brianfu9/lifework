@@ -461,11 +461,19 @@ app.post('/approve_milestone', urlencodedParser, function (req, res) {
     res.redirect("/freelancer/project/" + "dashboard.html");
 })
 
+app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
+    var submitted = req.body.submitbtn;
+    var project_id = req.body.project_id;
+    var milestone_index = req.body.milestone_index;
+    console.log(project_id + ' ' + milestone_index);
+    projects[project_id]['milestones'][milestone_index]['client_approved'] = true;
+    res.redirect("/freelancer/project/" + "dashboard.html");
+})
+
 // app.post('/token', function ( req , res) {
 //     console.log('body is ' + req.body);
 //     token = req.body.token;
 //     console.log(token);
-
 // })
 
 app.get('/project', function (req, res) {
