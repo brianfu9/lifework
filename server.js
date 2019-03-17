@@ -199,8 +199,8 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
     //TODO this
     var user_id = -1;
     for (var i = 0; i < Object.keys(clients).length; i++) {
-        if (clients[i]['email'] == req.body.email) {
-            user_id = i;
+        if (clients[i + 1]['email'] == req.body.email) {
+            user_id = i + 1;
             break;
         }
     };
@@ -275,8 +275,8 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
     //TODO this
     var user_id = -1;
     for (var i = 0; i < Object.keys(freelancers).length; i++) {
-        if (freelancers[i]['email'] == req.body.email) {
-            user_id = i;
+        if (freelancers[i + 1]['email'] == req.body.email) {
+            user_id = i + 1;
             break;
         }
     };
@@ -310,7 +310,7 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
         password: req.body.password,
         project_ids: []
     };
-    var freelancer_id = parseInt(Object.keys(freelancers).length);
+    var freelancer_id = parseInt(Object.keys(freelancers).length) + 1;
     freelancers[freelancer_id] = response;
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
@@ -454,10 +454,15 @@ app.get('/test', function (req, res) {
 
 app.get('/user_name', function (req, res) {
     if (req.session.user) {
-    res.end(freelancers[req.session.user]['firstname']);
+        if (req.session.user == -1) {
+            res.end("");
+        } else {
+            res.end(freelancers[req.session.user]['firstname']);
+        }
     } else {
         res.end("");
     }
+
 
 })
 
@@ -479,12 +484,13 @@ app.get('/projects', function (req, res) {
     res.end(JSON.stringify(user_projects));
 })
 
-app.post('/approve_milestone', function (req, res) {
+app.post('/approve_milestone', urlencodedParser, function (req, res) {
+    var submitted = req.body.submitbtn;
     var project_id = req.body.project_id;
     var milestone_index = req.body.milestone_index;
 
     projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
-    res.sendFile(__dirname + "/freelancer/project" + "dashboard.html");
+    res.redirect("/freelancer/project/" + "dashboard.html");
 })
 
 app.post('/token', function ( req , res) {
