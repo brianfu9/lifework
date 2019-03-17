@@ -42,39 +42,43 @@
             <h2 class="text-center" id="title">Add payment method</h2>
             <hr>
             <div class="row">
-                
+
                 <div class="">
 
-                        <div class="card">
-                            <div class="card-header">
-                                <p>Connect Payment Method<p>
-                            </div>
-                            <div class="card-body">
-                                <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
-                                    <fieldset>
-                                            <div class="mb-2">
-                                                    <div class="d-inline-block col-md-3 px-0">Account Holder Name</div>
-                                                        <div class="d-inline-block col-md-4 px-4">
-                                                                <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" placeholder="Full Name">
-                                                        </div>
-                                                </div>
-                                        <div class="mb-2">
-                                            <div class="d-inline-block col-md-3 px-0">Routing Information</div>
-                                                <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" placeholder="Account Number">
-                                                </div>
-                                                <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-sm" type="text" autocomplete="off" name="routing_number" placeholder="Routing Number">
-                                                </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <p>Connect Payment Method<p>
+                        </div>
+                        <div class="card-body">
+                            <form role="form" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post" method="post">
+                                <fieldset>
+                                    <div class="mb-2">
+                                        <div class="d-inline-block col-md-3 px-0">Account Holder Name</div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-lg" type="text" id="name"
+                                                autocomplete="off" name="account_holder_name" placeholder="Full Name">
                                         </div>
-                                        <!-- Need to add form validation -->
-                                        <div class="mx-auto">
-                                            <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment">
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-inline-block col-md-3 px-0">Routing Information</div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-lg" type="text" id="actnb"
+                                                autocomplete="off" name="account_number" placeholder="Account Number">
                                         </div>
-                                    </fieldset>
-                                </form>
-                                </div>
-                            </div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-sm" type="text" id="rtnb"
+                                                autocomplete="off" name="routing_number" placeholder="Routing Number">
+                                        </div>
+                                    </div>
+                                    <!-- Need to add form validation -->
+                                    <div class="mx-auto">
+                                        <input type="button" class="btn btn-lg btn-primary" value="Connect Payment"
+                                            onclick="tokenize()">
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -83,20 +87,30 @@
         </div>
     </div>
     <script>
-        var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
-        stripe.createToken('bank_account', {
-            country: 'US',
-            currency: 'usd',
-            routing_number: '110000000',
-            account_number: '000123456789',
-            account_holder_name: 'Jenny Rosen',
-            account_holder_type: 'individual',
-        }).then(function (result) {
-            $.post("http://localhost:8081/token", function (data) {
-                pass;
-            })
+        function tokenize() {
+            alert('start');
+            var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
+            stripe.createToken('bank_account', {
+                country: 'US',
+                currency: 'usd',
+                routing_number: document.getElementById("rtnb").value,
+                account_number: document.getElementById("acnb").value,
+                account_holder_name: document.getElementById("name").value,
+                account_holder_type: 'individual',
+            }).then(function (result) {
+                alert('returns');
+                if (result.error) {
+                    alert(result.error);
+                } else {
+                    alert(toString(result.token));
+                    $.post("http://localhost:8081/token", { 'token': result.token }, function (data) {
+                        pass;
+                    }
+                    )
+                }
 
-        });
+            });
+        }
     </script>
     <script>
         $.get("http://localhost:8081/logged_in", function (data) {
