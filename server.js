@@ -482,7 +482,7 @@ app.get('/projects', function (req, res) {
 app.post('/approve_milestone', function (req, res) {
     var project_id = req.body.project_id;
     var milestone_index = req.body.milestone_index;
-
+    console.log(project_id + ' ' + milestone_index);
     projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
     res.sendFile(__dirname + "/freelancer/project" + "dashboard.html");
 })
