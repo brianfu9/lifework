@@ -53,42 +53,46 @@
                     <div class="card my-4 shadow-sm">
                             
                                 <div class="card-header">
-                                    <h2>Milestone</h2> 
+                                    <h4>Milestone</h4> 
                                 </div>
                                 <div class="card-body">
                                     
-                                <form role="form" method="post" class="ws-validate form-inline" action="http://127.0.0.1:8081/freelancer/account/addmilestones.html/post">
+                                <form role="form" method="post" class="ws-validate form-inline border-0" action="http://127.0.0.1:8081/freelancer/project/addmilestones.html/post">
                                     <!-- <fieldset> -->
 
                                             <div class="mb-2">
                                                     <div class="d-inline-block col-md-3 px-0">Milestone ~1~</div>
-                                                        <div class="d-inline-block col-md-4 px-0">
+                                                        <div class="d-inline-block col-md-4 px-4">
                                                                 <input class="form-control input-lg" type="text" autocomplete="on" name="desc" value="Description~">
                                                         </div>
-                                                        <div class="d-inline-block col-md-4 px-0">
+                                                        <div class="d-inline-block col-md-4 px-4">
                                                                 <input class="form-control input-sm" type="date" autocomplete="on" name="date" value="~date~">
                                                         </div>
                                                     </div>
 
 
-                                    <div class="form-group form-row">
-                                    <input type="date" class="hide-replaced col-sm-12 col-md-4" value="date">
-                                    <input type="text" class="form-control col-sm-10 col-md-4" id="amount" name="amount" placeholder="100.00">
-                                    <select class="form-control col-sm-2 col-md-4" id="unitOfMoney" name="unitOfMoney">
+                                    <div class="d-inline-block col-md-3 px-0">Milestone Payment Details</div>
+                                    <!-- <input type="date" class="hide-replaced col-sm-12 col-md-4" value="date"> -->
+                                    <div class="d-inline-block col-md-4 px-4">
+                                    <input type="text" class="form-control input-lg col-sm-10 col-md-4" id="amount" name="amount" placeholder="100.00">
+                                    </div>
+                                    <div class="d-inline-block col-md-4 px-4">
+                                    <select class="form-control input-lg col-sm-2 col-md-4" id="unitOfMoney" name="unitOfMoney">
                                         <option value="percent">Percent (%)</option>
                                         <option value="dollars">US Dollars ($)</option>
                                     </select>
+                                    </div>
                                 </div>
                                 <br>
-                                <div class="form-group form-row">
+                                <!-- <div class="form-group form-row">
                                     <input type="text" class="form-control my-3 input-lg col-sm-12 col-md-6" id="description" name="description"
                                         placeholder="Description of milestone" style="width:100%">
-                                </div>
+                                </div> -->
                                 <div class="form-group form-row">
                                 <button type="submit" class="btn btn-md btn-primary pull-center" href="register.html"
-                                    value="addMore" name="addMore">Save and add another milestone</button>
+                                    value="addMore" name="submit">Save and add another milestone</button>
                                 <button type="submit" id="" class="btn btn-lg btn-primary pull-center" value="finish"
-                                    name="finish">Save and finish</button>
+                                    name="submit">Save and finish</button>
                                 </div>
                             <!-- </fieldset>     -->
                             </form>

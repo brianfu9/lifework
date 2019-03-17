@@ -369,7 +369,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         feedback: '',
         client_approved: false,
         freelancer_approved: false,
-        
+
     };
     // milestone_object = {
 //     date: date_object,
