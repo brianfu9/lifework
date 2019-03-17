@@ -19,10 +19,12 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local ----->
+    <!---- boostrap.min link local -----> 
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
+
+    
 
     <script src="js/bootstrap.min.js"></script>
     <!---- Boostrap js link local ----->
@@ -32,6 +34,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
+
+    <script src="/js/getheader.js"></script>
 </head>
 
 <body>
@@ -57,15 +61,15 @@
             </div>
         </div>
     </div>
-    <script>
-            $.get("http://localhost:8081/logged_in", function (data) {
-                if (data == "1") {
-                    $("#header").load("../logged_in_nav.html"); 
+    <!-- <script>
+            $.get("http://127.0.0.1:8081/user_name", function (data) {
+                if (data) {
+                    $("#header").load("../logged_in_nav.html");
                 } else {
-                    $("#header").load("../logged_out_nav.html"); 
+                $("#title").html("Welcome, " + data + "!");
                 }
-            })
-        </script>
+            });
+        </script> -->
 </body>
 
 

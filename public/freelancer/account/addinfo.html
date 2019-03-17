@@ -18,7 +18,9 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local ----->
+    <!---- boostrap.min link local -----> 
+
+<script src="/js/getheader.js"></script>
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
@@ -90,7 +92,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <!-- <script>
             $.get("http://localhost:8081/logged_in", function (data) {
                 if (data == "1") {
                     $("#header").load("../logged_in_nav.html"); 
@@ -98,8 +100,17 @@
                     $("#header").load("../logged_out_nav.html"); 
                 }
             })
-        </script>
-</body>
+        </script> -->
 
+<script>
+        $.get("http://127.0.0.1:8081/user_name", function (data) {
+            if (data) {
+                $("#header").load("../logged_in_nav.html");
+            } else {
+            $("#title").html("Welcome, " + data + "!");
+            }
+        });
+    </script>
+</body>
 
 </html>

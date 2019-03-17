@@ -19,7 +19,9 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local ----->
+    <!---- boostrap.min link local -----> 
+
+<script src="/js/getheader.js"></script>
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
@@ -41,24 +43,24 @@
             <div class="col-sm-12 pt-6" style="height:3em"></div>
             <h2 class="text-center" id="title">Add payment method</h2>
             <hr>
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 
                 <div class="">
 
                         <div class="card">
-                            <div class="card-header">
-                                <p>Connect Payment Method<p>
+                            <div class="card-header bg-default d-flex justify-content-center">
+                                <p><strong>Connect Payment Method</<p>
                             </div>
                             <div class="card-body">
                                 <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
                                     <fieldset>
                                             <div class="mb-2">
-                                                    <div class="d-inline-block col-md-3 px-0">Account Holder Name</div>
+                                                    <div class="d-inline-block col-md-4 px-0">Account Holder Name</div>
                                                         <div class="d-inline-block col-md-4 px-4">
                                                                 <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" placeholder="Full Name">
                                                         </div>
                                                 </div>
-                                        <div class="mb-2">
+                                        <div class="mb-2 pt-3">
                                             <div class="d-inline-block col-md-3 px-0">Routing Information</div>
                                                 <div class="d-inline-block col-md-4 px-4">
                                                         <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" placeholder="Account Number">
@@ -68,7 +70,7 @@
                                                 </div>
                                         </div>
                                         <!-- Need to add form validation -->
-                                        <div class="mx-auto">
+                                        <div class="d-flex justify-content-center pt-5">
                                             <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment">
                                         </div>
                                     </fieldset>
