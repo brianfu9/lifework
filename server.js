@@ -53,6 +53,7 @@ var freelancers = {}
 var projects = {}
     // projects = {
     //     id: {
+    //         id: int,
     //         client_id: int,
     //         client_firstname: string,
     //         client_lastname: string,
@@ -343,7 +344,9 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
 })
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
+    var proj_id = parseInt(Object.keys(projects).length);
     response = {
+        id: proj_id,
         client_id: -1,
         client_firstname: req.body.firstname,
         client_lastname: req.body.lastname,
@@ -354,7 +357,6 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         amount: Math.floor(parseFloat(req.body.amount) * 100),
         milestones: [],
     };
-    var proj_id = parseInt(Object.keys(projects).length);
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
     req.session.project = proj_id;
@@ -477,6 +479,14 @@ app.get('/projects', function (req, res) {
     res.end(JSON.stringify(user_projects));
 })
 
+app.post('/approve_milestone', function (req, res) {
+    var project_id = req.body.project_id;
+    var milestone_index = req.body.milestone_index;
+
+    projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
+    res.sendFile(__dirname + "/freelancer/project" + "dashboard.html");
+})
+
 app.post('/token', function ( req , res) {
     console.log('body is ' + req.body);
     token = req.body.token;
@@ -503,7 +513,7 @@ function validateSession() {
         }
     } else {
         console.log('no session');
-        res.redirect('/freelancer/account/login.html');
+        res.redirect('/freelancer/project/dashboard.html');
     }
 }
 
