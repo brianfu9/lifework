@@ -1,4 +1,4 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0//css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -17,7 +17,7 @@
     <script src="jquery/jquery.min.js"></script>
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
     <!---- boostrap.min link local ----->
 
     <link rel="stylesheet" href="css/style.css">
@@ -34,6 +34,7 @@
 </head>
 
 <body>
+    <div id="header" class="pb-2 mb-1"></div>
     <div class="container-fluid">
         <div class="container">
             <div class="col-sm-12 pt-6" style="height:3em"></div>
@@ -70,6 +71,15 @@
             </div>
         </div>
     </div>
+    <script>
+            $.get("http://localhost:8081/logged_in", function (data) {
+                if (data == "1") {
+                    $("#header").load("../logged_in_nav.html"); 
+                } else {
+                    $("#header").load("../logged_out_nav.html"); 
+                }
+            })
+        </script>
 </body>
 
 
