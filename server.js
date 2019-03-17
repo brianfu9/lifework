@@ -9,7 +9,13 @@ var nodemailer = require('nodemailer');
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(session({secret: 'ssshhhhh'}));
+app.use(session({ secret: 'dogs_dont_like_me' }));
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 var sess;
 // sess=req.session;
@@ -429,7 +435,13 @@ app.get('/user_name', function (req, res) {
 })
 
 app.get('/logged_in', function (req, res) {
-    res.end(req.session.user != -1);
+    console.log(req.session.user);
+    if (!req.session.user || req.session.user == -1) {
+        res.end("");
+    } else {
+        res.end("1")
+    }
+
 })
 
 // TODO this
