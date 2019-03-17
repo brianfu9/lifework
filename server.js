@@ -5,7 +5,7 @@ var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
 var stripe = require("stripe")("sk_test_YtKktLT1oLw3uilqbLwWi9Ij");
-var elements = stripe.elements();
+// var elements = stripe.elements();
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -18,17 +18,15 @@ app.use(function (req, res, next) {
     next();
 });
 
-var sess;
-
-var transporter = nodemailer.createTransport({
-    auth: {
-        user: 'david@lifeworkonline.com',
-        pass: 'yydysgidhrzkgngm'
-    },
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true
-});
+// var transporter = nodemailer.createTransport({
+//     auth: {
+//         user: 'david@lifeworkonline.com',
+//         pass: 'yydysgidhrzkgngm'
+//     },
+//     host: 'smtp.gmail.com',
+//     port: 465,
+//     secure: true
+// });
 
 var clients = {}
 // clients = {
@@ -469,11 +467,11 @@ app.get('/logged_in', function (req, res) {
 })
 
 app.get('/projects', function (req, res) {
-    projects = []
+    user_projects = []
     freelancers[req.session.user]['project_ids'].forEach(function(i) {
-        projects.push(projects[i]);
+        user_projects.push(projects[i]);
     })
-    res.end(projects);
+    res.end(JSON.stringify(user_projects));
 })
 
 // app.get('/logged_in', function (req, res) {
