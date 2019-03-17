@@ -65,7 +65,8 @@ var projects = {}
 //         name: string,
 //         amount: int, (number of cents)
 //         contract: string, (file location)
-//         milestones: [<milestone_object>]
+//         milestones: [<milestone_object>],
+//         client_email: string
 //     }
 // }
 // milestone_object = {
