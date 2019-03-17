@@ -56,7 +56,7 @@
                 <div id="projects" class="">
                     <div id="projectheader" class="row">
                         <div class="d-inline-block col-md-3">Project</div>
-                        <div class="d-inline-block col-md-3">Client</div>
+                        <div class="d-inline-block col-md-3">Freelancer</div>
                         <div class="d-inline-block col-md-3">Next Milestone</div>
                         <div class="d-inline-block col-md-3"></div>
                     </div>
@@ -90,7 +90,7 @@
                 }
                 // add row container
                 htmlstring = htmlstring + '<div class="row">'
-                htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
+                htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['freelancer_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
                 htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
                 htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
                 htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`

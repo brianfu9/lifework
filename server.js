@@ -46,6 +46,7 @@ var projects = {}
     //         client_lastname: string,
     //         client_email: string
     //         freelancer_id: int,
+    //         freelancer_firtname: string,
     //         name: string,
     //         amount: int, (number of cents)
     //         contract: string, (file location)
@@ -175,16 +176,16 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
             break;
         }
     };
-    console.log('user id ' + user_id);
+    console.log('login user id ' + user_id);
     if (user_id == -1) {
-        res.sendFile('/client/account/login.html', { error: 'Invalid email or password.' });
+        res.sendFile(__dirname + "/public/client/account/" + "login.html");
     } else {
         //TODO salt/hash
         if (req.body.password == clients[user_id]['password']) {
             // sets a cookie with the user's info
             req.session.user = user_id;
             req.session.user_type = 'client';
-            clients[user_id][project_ids] = matchEmails(req.body.email);
+            clients[user_id]['project_ids'] = matchEmails(req.body.email);
             res.redirect('/client/project/dashboard.html');
         } else {
             res.sendFile(__dirname + "/public/client/account/" + "login.html");
@@ -309,6 +310,8 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         client_lastname: req.body.lastname,
         client_email: req.body.email,
         freelancer_id: req.session.user,
+        freelancer_firstname: freelancers[req.session.user]['firstname'],
+        freelancer_lastname: freelancers[req.session.user]['lastname'],
         name: req.body.projname,
         contract: req.body.contract,
         amount: Math.floor(parseFloat(req.body.amount) * 100),
@@ -443,7 +446,7 @@ app.get('/projects', function (req, res) {
 
 app.get('/client_projects', function (req, res) {
     var user_projects = [];
-    clients[req.session.user]['email'].forEach(function(i) {
+    clients[req.session.user]['project_ids'].forEach(function(i) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
