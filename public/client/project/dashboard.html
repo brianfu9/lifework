@@ -35,8 +35,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 
-    <script src="/js/getheader.js"></script>
-    <script src="/js/validatelogin.js"></script>
+    <script src="/client/js/getheader.js"></script>
+    <script src="/client/js/validatelogin.js"></script>
 
 </head>
 
@@ -81,12 +81,12 @@
                         milestone_index = milestone_index + 1;
                         if (!m['client_approved'] && !s) {
                             console.log(m['client_approved'] + m['description'])
-                            milestone_date = m['date'] + ": " + m['description'];
+                            milestone_date = m['date'] + ": <br>" + m['description'];
                             s = 1;
                         }
                     }) 
 
-                    milestone_date = data[i]['milestones'][0]['date'] + "</br>" + data[i]['milestones'][0]['description'];
+                    //milestone_date = data[i]['milestones'][0]['date'] + "</br>" + data[i]['milestones'][0]['description'];
                 }
                 // add row container
                 htmlstring = htmlstring + '<div class="row">'
