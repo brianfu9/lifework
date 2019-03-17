@@ -468,7 +468,7 @@ app.post('/approve_milestone', urlencodedParser, function (req, res) {
 
 // })
 
-app.post('/project', urlencodedParser, function (req, res) {
+app.get('/project', function (req, res) {
     var proj = "";
     if (req.session.project) {
         proj = toString(req.session.project);

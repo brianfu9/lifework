@@ -92,12 +92,13 @@
                                 </div>
                             <div class="card-body">
                               <h5 class="card-title">Milestones</h5>
-                              <form class="form" action="" id="milestones">
+                              <form class="form" action="" id="miles">
+                                  <div id="milestones"></div>
                                 <!-- Need to pull in: Number of milestones, descriptions, amount of money, and date due -->
+                                <!-- <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
                                 <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
                                 <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
-                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
-                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>
+                                <div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled> -->
                               </form>
                             </div>
                           </div>
@@ -124,10 +125,18 @@
                     } else {
                     var htmlstring = "";
                     data = JSON.parse(data);
-                    projects[data][''];
+                    var fname = projects[data]['client_firstname'];
+                    console.log("~~~~~~");
+                    console.log(data);
+                    console.log(toString(projects[data]));
+                    console.log(fname);
+                    var lname = projects[data]['client_lastname'];
+                    var corg = projects[data]['client_email'];
+                    var cproj = projects[data]['name'];
+
                     var i = 0;
-                    if (data[i]['milestones'].length > 0) {
-                        data[i]['milestones'].forEach(function(m){
+                    if (projects[data][i]['milestones'].length > 0) {
+                        projects[data][i]['milestones'].forEach(function(m){
                             i = i + 1;
                             htmlstring = htmlstring + `<div class="">Milestone `+1`: `+m['description']+`</div>`;
                             htmlstring = htmlstring + `<div class="">Date Due: `+ m['date'] +`</div>`;
@@ -135,7 +144,14 @@
                         })
                     }
                     //var milestoneform = `<div class="">Milestone ~: ~~~</div><div class="">Date Due: ~~~</div><input class="form-control input-lg mb-4" type="text" autocomplete="on" value="~~~" disabled>`;
-
+    //         client_id: int,
+    //         client_firstname: string,
+    //         client_lastname: string,
+    //         client_email: string
+    //         freelancer_id: int,
+    //         freelancer_firtname: string,
+    //         name: string,
+    //         amount: int, (number of cents)
 
                     
 
@@ -144,14 +160,16 @@
                     $("clientfname").html(cfname);
                     $("clientlname").html(clname);
                     var clientorg = `<input class="form-control input-sm" type="text" autocomplete="on" name="company" value="${corg}" disabled>`;
-                    $("clientorg").html(corg);
+                    $("clientorg").html(clientorg);
                     
-                    var cemail = `<input class="form-control input-sm" type="text" autocomplete="on" name="email" value="${cemail}" disabled>`;
-                    $("clientorg").html(cemail);
+                    var clientemail = `<input class="form-control input-sm" type="text" autocomplete="on" name="email" value="${cemail}" disabled>`;
+                    $("clientemail").html(clientemail);
 
                     var cproject = `<input class="form-control input-sm" type="text" autocomplete="on" name="proj" value="${cproj}" disabled>`
-                    $("milestones").html(cproj);
-                    }}
+                    $("projectname").html(cproject);
+                    
+                    $("milestones").html(htmlstring);
+                }}
                 );
             </script>
 

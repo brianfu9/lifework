@@ -78,10 +78,15 @@
         $.get("http://127.0.0.1:8081/projects", function (data) {
             var htmlstring = "";
             data = JSON.parse(data);
+            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/approve_milestone">`
                 var milestone_date = '';
                 var milestone_index = -1;
+                console.log("~~~~~~");
+                    console.log(data);
+                    console.log(toString(data[0][milestones]));
+                    console.log(fname);
                 if (data[i]['milestones'].length > 0) {
                     var s = 0;
                     data[i]['milestones'].forEach(function(m) {
