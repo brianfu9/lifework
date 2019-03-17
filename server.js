@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-// var session = require('client-sessions');
 var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
@@ -18,24 +17,6 @@ app.use(function (req, res, next) {
 });
 
 var sess;
-// sess=req.session;
-
-// app.use(session({
-//     cookieName: 'session',
-//     secret: 'blarfelarg_the_great_hat_permuter',
-//     duration: 60 * 60 * 1000,
-//     activeDuration: 10 * 60 * 1000,
-// }));
-// app.use(function (req, res, next) {
-//     if (req.session.user) {
-//         res.setHeader('User-Id', req.session.user);
-//     } else {
-//         // setting a property will automatically cause a Set-Cookie response
-//         // to be sent
-//         req.session.user = -1;
-//         res.setHeader('User-Id', -1);
-//     }
-// });
 
 var transporter = nodemailer.createTransport({
     auth: {
@@ -292,7 +273,7 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
     };
     console.log('user id ' + user_id);
     if (user_id == -1) {
-        res.sendFile('/freelancer/account/login.html', { error: 'Invalid email or password.' });
+        res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
     } else {
         //TODO salt/hash
         if (req.body.password == freelancers[user_id]['password']) {
