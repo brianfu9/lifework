@@ -339,7 +339,7 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
         console.log('The file has been saved!');
     });
     console.log(response);
-    res.sendFile(__dirname + "/public/freelancer/account/" + "addinfo.html");
+    res.redirect("/freelancer/account/" + "addinfo.html");
 })
 
 // project
@@ -422,6 +422,10 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 // misc. pages
 app.get('/test', function (req, res) {
     res.end('current user:  ' + req.session.user + '\nclients:     ' + JSON.stringify(clients) + '\nfreelancers: ' + JSON.stringify(freelancers) + '\nprojects:    ' + JSON.stringify(projects));
+})
+
+app.get('/user_name', function (req, res) {
+    res.end(freelancers[req.session.user]['firstname']);
 })
 
 // TODO this

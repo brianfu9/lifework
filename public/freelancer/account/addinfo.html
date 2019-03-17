@@ -37,8 +37,13 @@
     <div class="container-fluid">
         <div class="container">
             <div class="col-sm-12 pt-6" style="height:3em"></div>
-            <h2 class="text-center" id="title">Welcome, -Name-!</h2>
-            <h2 class="text-center" id="title">Tell us a little about you.</h2>
+            <h2 class="text-center" id="title">Welcome!</h2>
+            <script>
+                $.get( "http://127.0.0.1:8081/user_name", function( data ) {
+                    $( "#title" ).html( "Welcome, " + data + "!" );
+                });
+            </script>
+            <h2 class="text-center">Tell us a little about you.</h2>
             <hr>
             <div class="row">
                 <div class="col-md-3 col-sm-1">
@@ -50,24 +55,27 @@
                             <p class="pull-center">What kind of freelance work do you do?</p>
                             <div class="form-group">
                                 <select class="form-control" id="lineOfWork" name="lineOfWork">
-                                    <option value = "graphicDesign">Graphic Design</option>
-                                    <option value = "softwareDev">Software Development</option>
-                                    <option value = "legal">Legal</option>
-                                    <option value = "writing">Writing</option>
+                                    <option value="graphicDesign">Graphic Design</option>
+                                    <option value="softwareDev">Software Development</option>
+                                    <option value="legal">Legal</option>
+                                    <option value="writing">Writing</option>
                                 </select>
                             </div>
                             <div>
                                 <p class="pull-center">What type of freelancer are you?</p>
                                 <div class="form-group">
                                     <select class="form-control" id="typeOfFreelancer" name="typeOfFreelancer">
-                                        <option value = "fullTime">Full-time</option>
-                                        <option value = "partTime">Part-time</option>
-                                        <option value = "unsure">Not sure</option>
+                                        <option value="fullTime">Full-time</option>
+                                        <option value="partTime">Part-time</option>
+                                        <option value="unsure">Not sure</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <a href = "register.html"><button type="button" class="btn btn-sm btn-default pull-center" href="register.html">Back</button></a>
-                                    <button type="submit" id="" class="btn btn-lg btn-primary pull-center"value="Continue" name = "Continue">Continue</button>
+                                    <a href="register.html"><button type="button"
+                                            class="btn btn-sm btn-default pull-center"
+                                            href="register.html">Back</button></a>
+                                    <button type="submit" id="" class="btn btn-lg btn-primary pull-center"
+                                        value="Continue" name="Continue">Continue</button>
                                 </div>
                         </fieldset>
                     </form>
