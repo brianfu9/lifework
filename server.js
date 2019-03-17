@@ -242,7 +242,7 @@ app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (re
         console.log('The file has been saved!');
     });
     console.log(response);
-    res.sendFile(__dirname + "/public/freelancer/project/" + "dashboard.html");
+    res.redirect('/client/project/dashboard.html');
 })
 
 app.get('/freelancer/account/addpayment.html', function (req, res) {
