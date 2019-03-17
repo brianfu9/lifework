@@ -467,7 +467,7 @@ app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
     var milestone_index = req.body.milestone_index;
     console.log(project_id + ' ' + milestone_index);
     projects[project_id]['milestones'][milestone_index]['client_approved'] = true;
-    res.redirect("/freelancer/project/" + "dashboard.html");
+    res.redirect("/client/project/" + "dashboard.html");
 })
 
 // app.post('/token', function ( req , res) {
