@@ -3,9 +3,6 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<!--- Form outputs: firstname, lastname, email, projname, contract (pdf**) -->
-<!--- TODO: Change server.js -->
-
 
 <!---*************welcome this is my simple empty strap by John Niro Yumang ******************* -->
 
@@ -22,12 +19,12 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local -----> 
-
-
+    <!---- boostrap.min link local ----->
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
+
+
 
     <script src="js/bootstrap.min.js"></script>
     <!---- Boostrap js link local ----->
@@ -38,31 +35,81 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 
-<script src="/js/getheader.js"></script>
+    <script src="/js/getheader.js"></script>
+    <script src="/js/validatelogin.js"></script>
+
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div id="header" class="pb-4 mb-1"></div>
+    <div class="container-fluid pt-5">
         <div class="container">
-            <div class="col-sm-12 pt-6" style="height:3em"></div>
+            <div class="col-sm-12 pt-6" style="height:3em">
             <h2 class="text-center" id="title">Dashboard</h2>
-            <hr>
-            <div class="row">
-                <div class="col-md-3 col-sm-1">
-                    <!-- Bumper -->
-                </div>
-                <div class="col-md-6 col-sm-10">
-                    <h2 class="text-center">Uwu fancy dashboard</h2>
-                    <!-- list projects -->
-                </div>
-
-                <div class="col-md-3 col-sm-1">
-                    <!-------null------>
-                </div>
-
             </div>
+            <hr>
+            <div class="row pt-1">
+                <div class="">
+                    <h3 class="text-center">Uwu fancy dashboard</h3>
+                </div>
+            </div>
+                <div id="projects" class="">
+                    <div id="projectheader" class="row">
+                        <div class="d-inline-block col-md-3">Project</div>
+                        <div class="d-inline-block col-md-3">Client</div>
+                        <div class="d-inline-block col-md-3">Next Milestone</div>
+                        <div class="d-inline-block col-md-3"></div>
+                    </div>
+                    
+                    <div id="projectsbody"></div>
+                    </form>
+                </div>
         </div>
     </div>
+
+    <script>
+        $.get("http://127.0.0.1:8081/client_projects", function (data) {
+            var htmlstring = "";
+            data = JSON.parse(data);
+            for (var i = 0; i < data.length; i++) {
+                htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/client_approve_milestone">`
+                var milestone_date = '';
+                var milestone_index = -1;
+                if (data[i]['milestones'].length > 0) {
+                    var s = 0;
+                    data[i]['milestones'].forEach(function(m) {
+                        milestone_index = milestone_index + 1;
+                        if (!m['client_approved'] && !s) {
+                            console.log(m['client_approved'] + m['description'])
+                            milestone_date = m['date'] + ": " + m['description'];
+                            s = 1;
+                        }
+                    }) 
+
+                    milestone_date = data[i]['milestones'][0]['date'] + data[i]['milestones'][0]['description'];
+                }
+                // add row container
+                htmlstring = htmlstring + '<div class="row">'
+                htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
+                htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
+                htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
+                htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`
+                htmlstring = htmlstring + '</div>'
+                //end row container
+                htmlstring = htmlstring +  `</form>`
+            }
+            $("#projectsbody").html(htmlstring);
+        });
+    </script>
+    <!-- <script>
+            $.get("http://127.0.0.1:8081/user_name", function (data) {
+                if (data) {
+                    $("#header").load("../logged_in_nav.html");
+                } else {
+                $("#title").html("Welcome, " + data + "!");
+                }
+            });
+        </script> -->
 </body>
 
 

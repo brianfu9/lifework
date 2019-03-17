@@ -447,8 +447,16 @@ app.get('/logged_in', function (req, res) {
 })
 
 app.get('/projects', function (req, res) {
-    user_projects = []
+    var user_projects = [];
     freelancers[req.session.user]['project_ids'].forEach(function(i) {
+        user_projects.push(projects[i]);
+    })
+    res.end(JSON.stringify(user_projects));
+})
+
+app.get('/client_projects', function (req, res) {
+    var user_projects = [];
+    clients[req.session.user]['email'].forEach(function(i) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
