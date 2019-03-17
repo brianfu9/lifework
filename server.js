@@ -4,10 +4,9 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var GGScript = require("ggscript");
 var stripe = require("stripe")("sk_test_YtKktLT1oLw3uilqbLwWi9Ij");
 var elements = stripe.elements();
-GGScript('https://js.stripe.com/v3/');
+
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -365,6 +364,10 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         if (err) throw err;
         console.log('The file has been saved!');
     });
+    fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
@@ -463,6 +466,14 @@ app.get('/logged_in', function (req, res) {
     // }
     console.log("logged in? User is " + req.session.user);
     res.end(toString(req.session.user));
+})
+
+app.get('/projects', function (req, res) {
+    projects = []
+    freelancers[req.session.user]['project_ids'].forEach(function(i) {
+        projects.push(projects[i]);
+    })
+    res.end(projects);
 })
 
 // app.get('/logged_in', function (req, res) {
