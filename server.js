@@ -391,6 +391,10 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         
     };
     projects[req.session.project]['milestones'].push(response);
+    fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
     console.log(response);
     res.redirect("/freelancer/project/" + "addmilestones.html");
 })
