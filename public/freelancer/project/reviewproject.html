@@ -42,7 +42,7 @@
 </head>
 <!-- We need to pull  -->
 <body>
-    <div id="header" class="pb-2 mb-1"></div>
+    <div id="header" class="pb-4 mb-1"></div>
     <div class="container-fluid">
         <div class="container">
             <div class="row py-2 justify-content-center">
@@ -106,7 +106,7 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
             $.get("http://localhost:8081/logged_in", function (data) {
                 if (data == "1") {
                     $("#header").load("../logged_in_nav.html"); 
@@ -114,7 +114,47 @@
                     $("#header").load("../logged_out_nav.html"); 
                 }
             })
-        </script>
+        </script> -->
+
+        <script>
+                $.get("http://127.0.0.1:8081/projects", function (data) {
+                    var htmlstring = "";
+                    data = JSON.parse(data);
+                    for (var i = 0; i < data.length; i++) {
+                        htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/approve_milestone">`
+                        var milestone_date = '';
+                        var milestone_index = -1;
+                        if (data[i]['milestones'].length > 0) {
+                            var s = 0;
+                            data[i]['milestones'].forEach(function(m) {
+                                milestone_index = milestone_index + 1;
+                                if (!m['freelancer_approved'] && !s) {
+                                    console.log(m['freelancer_approved'] + m['description'])
+                                    milestone_date = m['date'] + ": " + m['description'];
+                                    s = 1;
+                                }
+                                break;
+                            }) 
+        
+                            milestone_date = data[i]['milestones'][0]['date'] + data[i]['milestones'][0]['description'];
+                        }
+                        // add row container
+                        htmlstring = htmlstring + '<div class="row">'
+                        htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
+                        htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
+                        htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
+                        htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`
+                        htmlstring = htmlstring + '</div>'
+                        //end row container
+                        htmlstring = htmlstring +  `</form>`
+                    }
+                    $("#projectsbody").html(htmlstring);
+                });
+            </script>
+
+
+
+
 </body>
 
 </html>

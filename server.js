@@ -301,7 +301,7 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
 })
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
-    var proj_id = parseInt(Object.keys(projects).length);
+    var proj_id = parseInt(Object.keys(projects).length + 1);
     response = {
         id: proj_id,
         client_id: -1,
@@ -457,12 +457,19 @@ app.post('/approve_milestone', urlencodedParser, function (req, res) {
     res.redirect("/freelancer/project/" + "dashboard.html");
 })
 
-app.post('/token', function ( req , res) {
-    console.log('body is ' + req.body);
-    token = req.body.token;
-    console.log(token);
+// app.post('/token', function ( req , res) {
+//     console.log('body is ' + req.body);
+//     token = req.body.token;
+//     console.log(token);
 
-})
+// })
+
+app.post('/project', urlencodedParser, function (req, res)) {
+    var proj = "";
+    if (req.session.project) {
+        proj = toString(req.session.project)
+    }
+}
 
 function matchEmails(client_email) {
     var project_ids = [];
