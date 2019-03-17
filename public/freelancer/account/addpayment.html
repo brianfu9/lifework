@@ -49,7 +49,7 @@
 
                         <div class="card">
                             <div class="card-header bg-default d-flex justify-content-center">
-                                <p><strong>Connect Payment Method</<p>
+                                <p><strong>Connect Payment Method</p>
                             </div>
                             <div class="card-body">
                                 <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
@@ -73,10 +73,16 @@
                                         <div class="d-flex justify-content-center pt-5">
                                             <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment">
                                         </div>
-                                    </fieldset>
-                                </form>
-                                </div>
-                            </div>
+                                    </div>
+                                    <!-- Need to add form validation -->
+                                    <div class="mx-auto">
+                                        <input type="button" class="btn btn-lg btn-primary" value="Connect Payment"
+                                            onclick="tokenize()">
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -84,22 +90,32 @@
             </div>
         </div>
     </div>
-    <script>
-        var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
-        stripe.createToken('bank_account', {
-            country: 'US',
-            currency: 'usd',
-            routing_number: '110000000',
-            account_number: '000123456789',
-            account_holder_name: 'Jenny Rosen',
-            account_holder_type: 'individual',
-        }).then(function (result) {
-            $.post("http://localhost:8081/token", function (data) {
-                pass;
-            })
+    <!-- <script>
+        function tokenize() {
+            alert('start');
+            var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
+            stripe.createToken('bank_account', {
+                country: 'US',
+                currency: 'usd',
+                routing_number: document.getElementById("rtnb").value,
+                account_number: document.getElementById("acnb").value,
+                account_holder_name: document.getElementById("name").value,
+                account_holder_type: 'individual',
+            }).then(function (result) {
+                alert('returns');
+                if (result.error) {
+                    alert(result.error);
+                } else {
+                    alert(toString(result.token));
+                    $.post("http://localhost:8081/token", { 'token': result.token }, function (data) {
+                        pass;
+                    }
+                    )
+                }
 
-        });
-    </script>
+            });
+        }
+    </script> -->
     <script>
         $.get("http://localhost:8081/logged_in", function (data) {
             if (data == "1") {

@@ -454,6 +454,13 @@ app.get('/projects', function (req, res) {
     res.end(JSON.stringify(user_projects));
 })
 
+app.post('/token', function ( req , res) {
+    console.log('body is ' + req.body);
+    token = req.body.token;
+    console.log(token);
+
+})
+
 // app.get('/logged_in', function (req, res) {
 //     if (!req.session.user || req.session.user == -1) {
 //         res.end("");
