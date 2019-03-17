@@ -71,7 +71,7 @@
         $.get("http://127.0.0.1:8081/projects", function (data) {
             var htmlstring = "";
             for (var i = 0; i < data.length; i++) {
-                htmlstring = htmlstring + `<div class=''> ${data[i]['name']} ${data[i]['client_firstname']} ${data[i]['milestones'][0]['date']}</div>`
+                htmlstring = htmlstring + `<div class=''> ${data[i]['name']} ${data[i]['client_firstname']}</div>`
             }
             $("#projectsbody").html(data);
         });
