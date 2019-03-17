@@ -3,9 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
-var nodemailer = require('nodemailer');
-var stripe = require("stripe")("sk_test_YtKktLT1oLw3uilqbLwWi9Ij");
-// var elements = stripe.elements();
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -17,16 +14,6 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
-// var transporter = nodemailer.createTransport({
-//     auth: {
-//         user: 'david@lifeworkonline.com',
-//         pass: 'yydysgidhrzkgngm'
-//     },
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true
-// });
 
 var clients = {}
 // clients = {
@@ -130,7 +117,7 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         lastname: req.body.lastname,
         email: req.body.email,
         password: req.body.password,
-        project_ids: []
+        project_ids: matchEmails(req.body.email)
     };
     var client_id = parseInt(Object.keys(clients).length + 1);
     clients[client_id] = response;
@@ -159,7 +146,6 @@ app.post('/client/project/approvescope.html/post', urlencodedParser, function (r
 })
 
 app.get('/client/project/dashboard.html', function (req, res) {
-    validateSession();
     res.sendFile(__dirname + "/client/project/" + "dashboard.html");
 })
 app.post('/client/project/dashboard.html/post', urlencodedParser, function (req, res) {
@@ -194,10 +180,11 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
         res.sendFile('/client/account/login.html', { error: 'Invalid email or password.' });
     } else {
         //TODO salt/hash
-        if (req.body.password == freelancers[user_id]['password']) {
+        if (req.body.password == clients[user_id]['password']) {
             // sets a cookie with the user's info
             req.session.user = user_id;
-            req.session.user_type = 'freelancer';
+            req.session.user_type = 'client';
+            clients[user_id][project_ids] = matchEmails(req.body.email);
             res.redirect('/client/project/dashboard.html');
         } else {
             res.sendFile(__dirname + "/public/client/account/" + "login.html");
@@ -372,7 +359,6 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
-    validateSession();
     res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
@@ -478,27 +464,14 @@ app.post('/token', function ( req , res) {
 
 })
 
-// TODO this
-function validateSession() {
-    if (req.session && req.session.user) { // Check if session exists
-        // lookup the user in the DB by pulling their email from the session
-        console.log(req.session.user);
-        if (req.session.user == -1) {
-            // if the user isn't found in the DB, reset the session info and
-            // redirect the user to the login page
-            req.session.reset();
-            res.redirect('/freelancer/account/login.html');
-        } else {
-            // expose the user to the template
-            res.locals.user_id = req.session.user;
-
-            // render the dashboard page
-            return;
+function matchEmails(client_email) {
+    var project_ids = [];
+    Object.keys(projects).forEach(function (proj) {
+        if (client_email == projects[proj]['client_email']) {
+            project_ids.push(projects[proj]['id']);
         }
-    } else {
-        console.log('no session');
-        res.redirect('/freelancer/project/dashboard.html');
-    }
+    })
+    return project_ids;
 }
 
 var server = app.listen(8081, function () {
