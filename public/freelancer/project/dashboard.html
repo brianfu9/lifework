@@ -79,24 +79,26 @@
             var htmlstring = "";
             data = JSON.parse(data);
             console.log(data);
+            console.log("^^");
             for (var i = 0; i < data.length; i++) {
                 htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/approve_milestone">`
                 var milestone_date = '';
                 var milestone_index = -1;
                 console.log("~~~~~~");
                     console.log(data);
-                    console.log(toString(data[0][milestones]));
-                    console.log(fname);
+                    console.log(toString(data[0]['milestones']));
+                   
                 if (data[i]['milestones'].length > 0) {
                     var s = 0;
                     data[i]['milestones'].forEach(function(m) {
+                        if (!s) {
                         milestone_index = milestone_index + 1;
+                        }
                         if (!m['freelancer_approved'] && !s) {
                             console.log(m['freelancer_approved'] + m['description'])
                             milestone_date = m['date'] + ": " + m['description'];
                             s = 1;
-                        }
-                        break;
+                        }                    
                     }) 
 
                     milestone_date = data[i]['milestones'][0]['date'] + data[i]['milestones'][0]['description'];
