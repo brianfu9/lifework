@@ -439,7 +439,12 @@ app.get('/test', function (req, res) {
 })
 
 app.get('/user_name', function (req, res) {
+    if (req.session.user) {
     res.end(freelancers[req.session.user]['firstname']);
+    } else {
+        res.end("");
+    }
+
 })
 
 app.get('/logged_in', function (req, res) {
