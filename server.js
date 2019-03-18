@@ -358,7 +358,12 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         console.log('The file has been saved!');
     });
     console.log(response);
-    res.redirect("/freelancer/project/" + "addmilestones.html");
+    if (req.body.name == 'addMore') {
+        res.redirect("/freelancer/project/" + "addmilestones.html");
+    } else {
+        res.redirect("/freelancer/project/" + "dashboard.html");
+    }
+    
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
@@ -478,10 +483,17 @@ app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
 
 app.get('/project', function (req, res) {
     var proj = "";
+    console.log(req.session.project);
     if (req.session.project) {
-        proj = toString(req.session.project);
+        proj = JSON.stringify(req.session.project);
+        console.log("proj = ");
+        console.log(proj);
     } 
     res.end(proj);
+})
+
+app.get('/fname', function (req, res) {
+    res.end(projects[req.session.project])
 })
 
 function matchEmails(client_email) {
