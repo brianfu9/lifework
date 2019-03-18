@@ -19,7 +19,7 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local -----> 
+    <!---- boostrap.min link local ----->
 
 
 
@@ -35,8 +35,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 
-<script src="/js/getheader.js"></script>
-<script src="/js/validatelogin.js"></script>
+    <script src="/js/getheader.js"></script>
+    <script src="/js/validatelogin.js"></script>
 </head>
 
 <body>
@@ -47,57 +47,65 @@
             <h2 class="text-center" id="title">Add payment method</h2>
             <hr>
             <div class="row d-flex justify-content-center">
-                
+
                 <div class="">
 
-                        <div class="card">
-                            <div class="card-header bg-default d-flex justify-content-center">
-                                <p><strong>Connect Payment Method</p>
-                            </div>
-                            <div class="card-body">
-                                <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
-                                    <fieldset>
-                                            <div class="mb-2">
-                                                    <div class="d-inline-block col-md-4 px-0">Account Holder Name</div>
-                                                        <div class="d-inline-block col-md-4 px-4">
-                                                                <input class="form-control input-lg" type="text" autocomplete="off" name="account_holder_name" placeholder="Full Name">
-                                                        </div>
-                                                </div>
-                                        <div class="mb-2 pt-3">
-                                            <div class="d-inline-block col-md-3 px-0">Routing Information</div>
-                                                <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-lg" type="text" autocomplete="off" name="account_number" placeholder="Account Number">
-                                                </div>
-                                                <div class="d-inline-block col-md-4 px-4">
-                                                        <input class="form-control input-sm" type="text" autocomplete="off" name="routing_number" placeholder="Routing Number">
-                                                </div>
-                                        </div>
-                                        <!-- Need to add form validation -->
-                                        <div class="d-flex justify-content-center pt-5">
-                                            <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment">
+                    <div class="card">
+                        <div class="card-header bg-default d-flex justify-content-center">
+                            <p><strong>Connect Payment Method</p>
+                        </div>
+                        <div class="card-body">
+                            <form role="form" method="post"
+                                action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
+                                <fieldset>
+                                    <div class="mb-2">
+                                        <div class="d-inline-block col-md-4 px-0">Account Holder Name</div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-lg" type="text" autocomplete="off"
+                                                name="account_holder_name" placeholder="Full Name">
                                         </div>
                                     </div>
-                                </fieldset>
-                            </form>
+                                    <div class="mb-2 pt-3">
+                                        <div class="d-inline-block col-md-3 px-0">Routing Information</div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-lg" type="text" autocomplete="off"
+                                                name="account_number" placeholder="Account Number">
+                                        </div>
+                                        <div class="d-inline-block col-md-4 px-4">
+                                            <input class="form-control input-sm" type="text" autocomplete="off"
+                                                name="routing_number" placeholder="Routing Number">
+                                        </div>
+                                    </div>
+                                    <!-- Need to add form validation -->
+                                    <div class="d-flex justify-content-center pt-5">
+                                        <input type="submit" class="btn btn-lg btn-primary" value="Connect Payment"
+                                            onclick="tokenize()">
+                                    </div>
                         </div>
+                        </fieldset>
+                        </form>
                     </div>
-
                 </div>
 
-
             </div>
+
+
         </div>
     </div>
-    <!-- <script>
+    </div>
+    <script>
         function tokenize() {
             alert('start');
             var stripe = Stripe('pk_test_XfD9ZwYa4QVZuSIj4wTwvbxf');
             stripe.createToken('bank_account', {
                 country: 'US',
                 currency: 'usd',
-                routing_number: document.getElementById("rtnb").value,
-                account_number: document.getElementById("acnb").value,
-                account_holder_name: document.getElementById("name").value,
+                routing_number: '110000000',
+                account_number: '000123456789',
+                account_holder_name: 'Jenny Rosen',
+                // routing_number: document.getElementById("rtnb").value,
+                // account_number: document.getElementById("acnb").value,
+                // account_holder_name: document.getElementById("name").value,
                 account_holder_type: 'individual',
             }).then(function (result) {
                 alert('returns');
@@ -113,7 +121,7 @@
 
             });
         }
-    </script> -->
+    </script>
     <!-- <script>
         $.get("http://localhost:8081/logged_in", function (data) {
             if (data == "1") {
