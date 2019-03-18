@@ -358,7 +358,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         console.log('The file has been saved!');
     });
     console.log(response);
-    if (req.body.name == 'addMore') {
+    if (req.body.name == 'Add More') {
         res.redirect("/freelancer/project/" + "addmilestones.html");
     } else {
         res.redirect("/freelancer/project/" + "dashboard.html");
