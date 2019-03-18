@@ -120,11 +120,13 @@
             // TODO: Fix
                 $.get("http://127.0.0.1:8081/project", function (data) {
                     var no_proj = "<div class=''>Oops. No project is selected.</div>";
-                    if  (!project) {
+                    data = JSON.parse(data);
+                    
+                    if  (!data) {
                         $("#projbody").html(no_proj);
                     } else {
                     var htmlstring = "";
-                    data = JSON.parse(data);
+                    
                     var fname = projects[data]['client_firstname'];
                     console.log("~~~~~~");
                     console.log(data);

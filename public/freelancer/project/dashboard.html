@@ -62,12 +62,12 @@
             </div>
                 <div id="projects" class="">
                     <div id="projectheader" class="row">
-                        <div class="d-inline-block col-md-3">Project</div>
-                        <div class="d-inline-block col-md-3">Client</div>
-                        <div class="d-inline-block col-md-3">Next Milestone</div>
-                        <div class="d-inline-block col-md-3">Complete?</div>
+                        <div class="d-inline-block col-md-3"><strong>Project</strong></div>
+                        <div class="d-inline-block col-md-3"><strong>Client</strong></div>
+                        <div class="d-inline-block col-md-3"><strong>Next Milestone</strong></div>
+                        <div class="d-inline-block col-md-3"><strong>Complete?</strong></div>
                     </div>
-                    
+                    <hr>
                     <div id="projectsbody"></div>
                     </form>
                 </div>
@@ -87,9 +87,8 @@
                 console.log("~~~~~~");
                     console.log(data);
                     console.log(toString(data[0]['milestones']));
-                   
+                var s = 0;
                 if (data[i]['milestones'].length > 0) {
-                    var s = 0;
                     data[i]['milestones'].forEach(function(m) {
                         if (!s) {
                         milestone_index = milestone_index + 1;
@@ -109,9 +108,13 @@
                 htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
                 htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
                 htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`
-                htmlstring = htmlstring + '</div>'
+                htmlstring = htmlstring + '</div></div>'
                 //end row container
                 htmlstring = htmlstring +  `</form>`
+                if (!s) {
+                    htmlstring = "";
+                }
+                finalhtml = finalhtml + htmlstring;
             }
             $("#projectsbody").html(htmlstring);
         });
