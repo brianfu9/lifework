@@ -90,6 +90,13 @@ fs.readFile('projects.json', 'utf8', function readFileCallback(err, data) {
 app.use(express.static('public'));
 
 //////////////////////\\\\\\\\\\\\\\\\\\\\\\
+//////////////// INDEX PAGE \\\\\\\\\\\\\\\\
+//////////////////////\\\\\\\\\\\\\\\\\\\\\\
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + "" + "index.html");
+})
+
+//////////////////////\\\\\\\\\\\\\\\\\\\\\\
 /////////////// CLIENT PAGES \\\\\\\\\\\\\\\
 //////////////////////\\\\\\\\\\\\\\\\\\\\\\
 
