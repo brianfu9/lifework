@@ -197,7 +197,7 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
     if (user_id == -1) {
         res.sendFile(__dirname + "/public/client/account/" + "login.html");
     } else {
-        //TODO salt/hash
+        
         //if (req.body.password == clients[user_id]['password']) {
         if (bcrypt.compareSync(req.body.password, clients[user_id]['password'])) {
         
@@ -278,7 +278,7 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
         res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
     } else {
         //TODO salt/hash
-        if (req.body.password == freelancers[user_id]['password']) {
+        if (bcrypt.compareSync(req.body.password, freelancers[user_id]['password'])) {
             // sets a cookie with the user's info
             req.session.user = user_id;
             req.session.user_type = 'freelancer';
