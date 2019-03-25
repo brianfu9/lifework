@@ -207,6 +207,7 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
             res.sendFile(__dirname + "/public/client/account/" + "login.html");
         }
     });
+    }
     console.log(response);
     res.sendFile(__dirname + "/public/client/account/" + "login.html");
 })
