@@ -56,7 +56,7 @@
                         </div>
                         <div class="card-body">
                             <form role="form" method="post"
-                                action="http://127.0.0.1:8081/freelancer/account/addpayment.html/post">
+                                action="/freelancer/account/addpayment.html/post">
                                 <fieldset>
                                     <div class="mb-2">
                                         <div class="d-inline-block col-md-4 px-0">Account Holder Name</div>
@@ -113,7 +113,7 @@
                     alert(result.error);
                 } else {
                     alert(toString(result.token));
-                    $.post("http://localhost:8081/token", { 'token': result.token }, function (data) {
+                    $.post("/token", { 'token': result.token }, function (data) {
                         pass;
                     }
                     )

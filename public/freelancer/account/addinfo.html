@@ -45,7 +45,7 @@
             <div class="col-sm-12 pt-6" style="height:3em"></div>
             <h2 class="text-center" id="title">Welcome!</h2>
             <script>
-                $.get("http://127.0.0.1:8081/user_name", function (data) {
+                $.get("/user_name", function (data) {
                     $("#title").html("Welcome, " + data + "!");
                 });
             </script>
@@ -56,7 +56,7 @@
                     <!-- Bumper -->
                 </div>
                 <div class="col-md-6 col-sm-10">
-                    <form role="form" method="post" action="http://127.0.0.1:8081/freelancer/account/addinfo.html/post">
+                    <form role="form" method="post" action="/freelancer/account/addinfo.html/post">
                         <fieldset>
                             <p class="pull-center">What kind of freelance work do you do?</p>
                             <div class="form-group">
@@ -106,7 +106,7 @@
         </script> -->
 
 <script>
-        $.get("http://127.0.0.1:8081/user_name", function (data) {
+        $.get("/user_name", function (data) {
             if (data) {
                 $("#title").html("Welecome, " + data + "!");
             } else {

@@ -75,13 +75,13 @@
     </div>
 
     <script>
-        $.get("http://127.0.0.1:8081/projects", function (data) {
+        $.get("/projects", function (data) {
             var finalhtml = "";
             data = JSON.parse(data);
             console.log(data);
             console.log("^^");
             for (var i = 0; i < data.length; i++) {
-                htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/approve_milestone">`
+                htmlstring = htmlstring + `<form method="post" action="/approve_milestone">`
                 var milestone_date = '';
                 var milestone_index = -1;
                 console.log("~~~~~~");

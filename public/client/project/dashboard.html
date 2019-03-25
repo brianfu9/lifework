@@ -68,11 +68,11 @@
     </div>
 
     <script>
-        $.get("http://127.0.0.1:8081/client_projects", function (data) {
+        $.get("/client_projects", function (data) {
             var htmlstring = "";
             data = JSON.parse(data);
             for (var i = 0; i < data.length; i++) {
-                htmlstring = htmlstring + `<form method="post" action="http://127.0.0.1:8081/client_approve_milestone">`
+                htmlstring = htmlstring + `<form method="post" action="/client_approve_milestone">`
                 var milestone_date = '';
                 var milestone_index = -1;
                 if (data[i]['milestones'].length > 0) {
