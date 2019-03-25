@@ -122,10 +122,14 @@ app.get('/client/account/register.html', function (req, res) {
 app.post('/client/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     var p = '';
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-        p = hash;
-        console.log(p);
-    });
+    // bcrypt.hash(req.body.password, 10, function(err, hash) {
+    //     console.log(hash);
+    //     p = hash;
+    //     console.log(p);
+    // });
+
+    p = bcrypt.hashSync(req.body.password, 10);
+    console.log(p);
     response = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -195,8 +199,7 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
     } else {
         //TODO salt/hash
         //if (req.body.password == clients[user_id]['password']) {
-        bcrypt.compare(req.body.password, hash, function (err, res) {
-            if (res) {
+        if (bcrypt.compareSync(req.body.password, clients[user_id]['password'])) {
         
             // sets a cookie with the user's info
             req.session.user = user_id;
@@ -206,8 +209,8 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
         } else {
             res.sendFile(__dirname + "/public/client/account/" + "login.html");
         }
-    });
     }
+    
     console.log(response);
     res.sendFile(__dirname + "/public/client/account/" + "login.html");
 })
