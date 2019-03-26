@@ -8,7 +8,11 @@ var path = require('path');
 var bcrypt = require('bcrypt'); // hashing
 var aws = require('aws-sdk'); //aws s3
 var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory)
+// include stripe, curried ("stripe") and ("SECRET KEY")
+/*
+include hbs
 
+*/
  
 // Configure aws
 /*
@@ -510,7 +514,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
     uploadFile("projects.json", bucket);
     console.log("Uploaded projects file to S3");
     console.log(response);
-    if (req.body.name == 'Add More') {
+    if (req.body.submit == 'Add More') {
         res.redirect("/freelancer/project/" + "addmilestones.html");
     } else {
         res.redirect("/freelancer/project/" + "dashboard.html");
