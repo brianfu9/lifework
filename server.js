@@ -412,11 +412,21 @@ app.get('/freelancer/project/dashboard.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
+    // We should never be posting to dashboard. We post to /approve_method
+    
     // Prepare output in JSON format
-    response = {
-
-    };
-    console.log(response);
+        // receives project_id, milestone_index
+    
+    // if (freelancers[req.session.user]['project_ids'].includes(req.body.project_id)) {
+    //     projects[req.body.project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
+    //     console.log(response);
+    // } else {
+    //     // alert that you can't edit that project
+    //     response = {};
+    // }
+    
+        //TODO: fill this out
+    
     res.end(JSON.stringify(response));
 })
 
@@ -503,9 +513,13 @@ app.post('/approve_milestone', urlencodedParser, function (req, res) {
     var submitted = req.body.submitbtn;
     var project_id = req.body.project_id;
     var milestone_index = req.body.milestone_index;
-    console.log(project_id + ' ' + milestone_index);
-    projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
-    res.redirect("/freelancer/project/" + "dashboard.html");
+    if (freelancers[req.session.user]['project_ids'].includes(project_id)) {
+        console.log(project_id + ' ' + milestone_index);
+        projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
+        res.redirect("/freelancer/project/" + "dashboard.html");
+    } else {
+        console.log("tried to edit milestone not assigned to user");
+    }
 })
 
 app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
