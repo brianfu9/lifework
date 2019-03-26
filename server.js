@@ -120,10 +120,13 @@ var uploadFile = (filePath, bucketName) => {
     var params = {
             Bucket: bucketName,
             Body: fs.createReadStream(__dirname + "/" + filePath),
-            // be careful, path doesn't exist
-            // this might not work
             Key: "folder/"+"_"+path.basename(filePath)
         }
+    var backupparams = {
+        Bucket: bucketName,
+        Body: fs.createReadStream(__dirname + "/" + filePath),
+        Key: "backup/" + Date.now() + "_" + path.basename(filePath)
+    }
         s3.upload(params, function (err, data) {
             if (err) {
                 console.log("S3 error: ", err);
@@ -131,6 +134,14 @@ var uploadFile = (filePath, bucketName) => {
                 console.log("Write success: Check S3");
                 }
         })
+        s3.upload(backupparams, function (err, data) {
+            if (err) {
+                console.log("S3 error: ", err);
+            } else {
+                console.log("Write backup success: Check S3");
+                }
+        })
+
 }
 
 var downloadFile = (filePath ,bucketName) => {
