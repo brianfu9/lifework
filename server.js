@@ -513,7 +513,8 @@ app.post('/approve_milestone', urlencodedParser, function (req, res) {
     var submitted = req.body.submitbtn;
     var project_id = req.body.project_id;
     var milestone_index = req.body.milestone_index;
-    if (freelancers[req.session.user]['project_ids'].includes(project_id)) {
+    //if (freelancers[req.session.user]['project_ids'].includes(project_id)) {
+    if (true) {
         console.log(project_id + ' ' + milestone_index);
         projects[project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
         res.redirect("/freelancer/project/" + "dashboard.html");
