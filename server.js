@@ -11,6 +11,11 @@ var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.
 
  
 // Configure aws
+/*
+Note about AWS: this (should) download files from AWS every time the server starts up.
+Any time a user action is taken, the files in AWS are re-written. 
+Not sure if this logic is foolproof^. (But I think it is).
+*/
 aws.config.update({
     accessKeyId: awsKey['key'],
     secretAccessKey: awsKey['secret']
