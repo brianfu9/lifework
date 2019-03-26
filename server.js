@@ -7,31 +7,17 @@ var fs = require('fs');
 var path = require('path');
 var bcrypt = require('bcrypt'); // hashing
 var aws = require('aws-sdk'); //aws s3
+var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory)
 
+ 
 // Configure aws
 aws.config.update({
-    accessKeyId: "AKIAIUKENYRH7BH7KQJA",
-    secretAccessKey: "Prt0Pppr1RcCe/QOlnzxh7QX77z8JUYprh3vWce/"
+    accessKeyId: awsKey['key'],
+    secretAccessKey: awsKey['secret']
 });
 
 var s3 = new aws.S3();
-var filePath = "/LifeWork_logo.png";
-
-var params = {
-    Bucket: "lifeworkonlinebucket",
-    Body: fs.createReadStream(filePath),
-    // be careful, path doesn't exist
-    // this might not work
-    Key: "folder/"+Date.now()+"_"+path.basename(filePath)
-}
-
-s3.upload(params, function (err, data) {
-    if (err) {
-        console.log("S3 error: ", err);
-    } else {
-        console.log("S3 success: Check S3");
-    }
-})
+var bucket = "lifeworkonlinebucket";
 
 
 // Create application/x-www-form-urlencoded parser
@@ -94,30 +80,55 @@ var projects = {}
 //     freelancer_approved: boolean
 // }
 
-fs.readFile('freelancers.json', 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        if (obj) freelancers = obj;
+
+
+// /*fs.readFile(freelancersFile, 'utf8', function readFileCallback(err, data) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         obj = JSON.parse(data); //now it an object
+//         console.log("Read data file: " + obj);
+//         if (obj) freelancers = obj;
+//     }
+// });*/
+
+var uploadFile = (filePath, bucketName) => {
+    var params = {
+            Bucket: bucketName,
+            Body: fs.createReadStream(__dirname + "/" + filePath),
+            // be careful, path doesn't exist
+            // this might not work
+            Key: "folder/"+"_"+path.basename(filePath)
+        }
+        s3.upload(params, function (err, data) {
+            if (err) {
+                console.log("S3 error: ", err);
+            } else {
+                console.log("S3 success: Check S3");
+                }
+        })
+}
+
+var downloadFile = (filePath ,bucketName) => {
+    var params = {
+        Bucket: bucketName,
+        Key: "folder/"+"_"+path.basename(filePath)
     }
-});
-fs.readFile('clients.json', 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        if (obj) clients = obj;
-    }
-});
-fs.readFile('projects.json', 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        if (obj) projects = obj;
-    }
-});
+    s3.getObject(params, (err, data) => {
+        if (err) console.error(err);
+        fs.writeFileSync(__dirname + "/" + filePath, data.Body.toString());
+        console.log('Write success: ' + filePath);
+    })
+}
+
+uploadFile("freelancers.json", bucket);
+uploadFile("clients.json", bucket);
+uploadFile("projects.json", bucket);
+downloadFile("freelancers.json", bucket);
+downloadFile("clients.json", bucket);
+downloadFile("projects.json", bucket);
+
+
 
 app.use(express.static('public'));
 
@@ -177,10 +188,15 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
     req.session.user = client_id;
     req.session.user_type = 'client';
 
+    //TODO: AWS switchover
+    
     fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
-    });
+    }); 
+
+    //take existing clients file and just upload (?)
+
     console.log(response);
     res.redirect("/client/project/" + "dashboard.html");
 })
@@ -284,6 +300,7 @@ app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (re
         typeOfFreelancer: req.body.typeOfFreelancer,
         lineOfWork: req.body.lineOfWork
     };
+    //TODO: AWS switchover
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
@@ -359,6 +376,7 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     req.session.user = freelancer_id;
     req.session.user_type = 'freelancer';
 
+    //TODO: AWS switchover
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
@@ -391,10 +409,12 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
     req.session.project = proj_id;
+    //TODO: AWS switchover
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     });
+    //TODO: AWS switchover
     fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
@@ -424,6 +444,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         
     };
     projects[req.session.project]['milestones'].push(response);
+    //TODO: AWS switchover
     fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
@@ -503,7 +524,12 @@ app.get('/user_name', function (req, res) {
         if (req.session.user == -1) {
             res.end("");
         } else {
-            res.end(freelancers[req.session.user]['firstname']);
+            if (req.session.user_type == "freelancer") {
+                res.end(freelancers[req.session.user]['firstname']);
+            }
+            else {
+                res.end(client)
+            }
         }
     } else {
         res.end("");
