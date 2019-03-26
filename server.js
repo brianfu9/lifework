@@ -3,7 +3,36 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
-var bcrypt = require('bcrypt');
+//might not need this path variable
+var path = require('path');
+var bcrypt = require('bcrypt'); // hashing
+var aws = require('aws-sdk'); //aws s3
+
+// Configure aws
+aws.config.update({
+    accessKeyId: "AKIAIUKENYRH7BH7KQJA",
+    secretAccessKey: "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"
+});
+
+var s3 = new aws.S3();
+var filePath = "/LifeWork_logo.png";
+
+var params = {
+    Bucket: "lifeworkonlinebucket",
+    Body: fs.createReadStream(filePath),
+    // be careful, path doesn't exist
+    // this might not work
+    Key: "folder/"+Date.now()+"_"+path.basename(filePath)
+}
+
+s3.upload(params, function (err, data) {
+    if (err) {
+        console.log("S3 error: ", err);
+    } else {
+        console.log("S3 success: Check S3");
+    }
+})
+
 
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
