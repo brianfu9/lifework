@@ -134,7 +134,7 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
 
 
     p = bcrypt.hashSync(req.body.password, 10);
-    console.log(p);
+
     response = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -295,7 +295,7 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
     if (user_id == -1) {
         res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
     } else {
-        //TODO salt/hash
+        
         if (bcrypt.compareSync(req.body.password, freelancers[user_id]['password'])) {
             // sets a cookie with the user's info
             req.session.user = user_id;
@@ -314,12 +314,16 @@ app.get('/freelancer/account/register.html', function (req, res) {
 app.post('/freelancer/account/register.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     // this is filled out
+    var time = new Date().getUTCMilliseconds(); // creates validation time for each user
+    p = bcrypt.hashSync(req.body.password, 10);
+    
     response = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: req.body.password,
-        project_ids: []
+        password: p,
+        project_ids: [],
+        timestamp: time
     };
     var freelancer_id = parseInt(Object.keys(freelancers).length) + 1;
     freelancers[freelancer_id] = response;
