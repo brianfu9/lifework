@@ -107,6 +107,7 @@
                 htmlstring = htmlstring + '<div class="row">'
                 htmlstring = htmlstring + `<div class='d-inline-block col-md-3'> ${data[i]['name']} </div> <div class='d-inline-block col-md-3'> ${data[i]['client_firstname']}</div> <div class='d-inline-block col-md-3'> ${milestone_date} </div>`
                 htmlstring = htmlstring + `<div class='d-inline-block col-md-3'><input type='submit' class='form-control btn btn-primary input-lg' name"submitbtn" value="Complete">`
+                // consider security
                 htmlstring = htmlstring +  `<input type="hidden" name="project_id" value= ${data[i]['id']}>`
                 htmlstring = htmlstring +  `<input type="hidden" name="milestone_index" value= ${milestone_index}>`
                 htmlstring = htmlstring + '</div></div>'

@@ -23,7 +23,8 @@ var clients = {}
 //         lastname: string,
 //         email: string,
 //         password: long,
-//         project_ids: [int]
+//         project_ids: [int],
+//         timestamp: string (account creation)
 //     }
 // }
 var freelancers = {}
@@ -35,7 +36,8 @@ var freelancers = {}
 //         password: long,
 //         project_ids: [int]
 //         field: string,
-//         hours: string
+//         hours: string,
+//         timstamp: string (account creation)
 //     }
 // }
 var projects = {}
@@ -128,6 +130,9 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
     //     console.log(p);
     // });
 
+    var time = new Date().getUTCMilliseconds(); // creates validation time for each user
+
+
     p = bcrypt.hashSync(req.body.password, 10);
     console.log(p);
     response = {
@@ -135,7 +140,8 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         lastname: req.body.lastname,
         email: req.body.email,
         password: p,
-        project_ids: matchEmails(req.body.email)
+        project_ids: matchEmails(req.body.email),
+        timestamp: time
     };
     var client_id = parseInt(Object.keys(clients).length + 1);
     clients[client_id] = response;
@@ -214,6 +220,18 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
     console.log(response);
     res.sendFile(__dirname + "/public/client/account/" + "login.html");
 })
+
+// if (clients[req.session.user]['timestamp'] == req.body.key) {
+    //let them through
+//} else {
+    // don't let them in
+//}
+/* But this means that people can change user id to get different hash
+
+OPTIONS:
+1) add the account time to all forms and check that the project id has user id whose time = time
+2) 
+*/
 
 ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
 /////////////// FREELANCER PAGES \\\\\\\\\\\\\\\
