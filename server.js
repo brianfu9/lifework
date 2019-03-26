@@ -91,6 +91,17 @@ var projects = {}
 //         if (obj) freelancers = obj;
 //     }
 // });*/
+var read = (filePath) => {
+    fs.readFile(filePath, 'utf8', function readFileCallback(err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                obj = JSON.parse(data); //now it an object
+                console.log("Read data file: " + obj);
+                if (obj) return obj;
+            }
+        });
+}
 
 var uploadFile = (filePath, bucketName) => {
     var params = {
@@ -121,12 +132,44 @@ var downloadFile = (filePath ,bucketName) => {
     })
 }
 
-uploadFile("freelancers.json", bucket);
-uploadFile("clients.json", bucket);
-uploadFile("projects.json", bucket);
+//uploadFile("freelancers.json", bucket);
+//uploadFile("clients.json", bucket);
+//uploadFile("projects.json", bucket);
 downloadFile("freelancers.json", bucket);
 downloadFile("clients.json", bucket);
 downloadFile("projects.json", bucket);
+// freelancers = read("freelancers.json");
+// clients = read("clients.json");
+
+//projects = read("projects.json");
+fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        console.log("Read data file old-fashioned way: " + obj);
+        if (obj) freelancers = obj;
+    }
+});
+fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        console.log("Read data file old-fashioned way: " + obj);
+        if (obj) clients = obj;
+    }
+});
+fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        obj = JSON.parse(data); //now it an object
+        console.log("Read data file old-fashioned way: " + obj);
+        if (obj) projects = obj;
+    }
+});
+//console.log("FREELANCERS IS NOW " + (freelancers));
 
 
 
@@ -194,6 +237,8 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         if (err) throw err;
         console.log('The file has been saved!');
     }); 
+    uploadFile("clients.json", bucket);
+    console.log("Uploaded client file to S3");
 
     //take existing clients file and just upload (?)
 
@@ -528,7 +573,7 @@ app.get('/user_name', function (req, res) {
                 res.end(freelancers[req.session.user]['firstname']);
             }
             else {
-                res.end(client)
+                res.end(clients[req.session.user]['firstname']);
             }
         }
     } else {
@@ -610,11 +655,13 @@ app.get('/fname', function (req, res) {
 
 function matchEmails(client_email) {
     var project_ids = [];
+    if (projects != {}) {
     Object.keys(projects).forEach(function (proj) {
         if (client_email == projects[proj]['client_email']) {
             project_ids.push(projects[proj]['id']);
         }
     })
+    }
     return project_ids;
 }
 
