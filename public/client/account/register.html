@@ -79,7 +79,7 @@
                             <!-- Need to add form validation and password validation-->
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
+                                    <input type="checkbox" class="form-check-input" name="agree">
                                     I agree to LifeWork's <a href="">terms and conditions</a>
                                 </label>
                             </div>
@@ -107,6 +107,16 @@
         alert("Passwords must match");
         return false;
     }
+    if (x.length < 7) {
+        alert("Password must be at least 7 characters");
+        return false;
     }
+    if (document.getElementById("checkbox").checked == true) {
+        alert("Must agree to terms and conditions");
+        return false;
+    }
+    }
+
 </script>
+
 </html>
