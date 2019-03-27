@@ -166,6 +166,8 @@ downloadFile("projects.json", bucket);
 // clients = read("clients.json");
 
 //projects = read("projects.json");
+
+// reads file (.json) into variable
 fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
     if (err) {
         console.log(err);
@@ -175,6 +177,7 @@ fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
         if (obj) freelancers = obj;
     }
 });
+// reads file (.json) into variable
 fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
     if (err) {
         console.log(err);
@@ -184,6 +187,7 @@ fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
         if (obj) clients = obj;
     }
 });
+// reads file (.json) into variable
 fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
     if (err) {
         console.log(err);
@@ -193,8 +197,6 @@ fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
         if (obj) projects = obj;
     }
 });
-//console.log("FREELANCERS IS NOW " + (freelancers));
-
 
 
 app.use(express.static('public'));
