@@ -156,47 +156,84 @@ var downloadFile = (filePath ,bucketName) => {
     })
 }
 
+var getFiles = () => {
+    downloadFile("freelancers.json", bucket);
+    downloadFile("clients.json", bucket);
+    downloadFile("projects.json", bucket);
+    fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            obj = JSON.parse(data); //now it an object
+            console.log("Read data file old-fashioned way: " + obj);
+            if (obj) freelancers = obj;
+        }
+    });
+    // reads file (.json) into variable
+    fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            obj = JSON.parse(data); //now it an object
+            console.log("Read data file old-fashioned way: " + obj);
+            if (obj) clients = obj;
+        }
+    });
+    // reads file (.json) into variable
+    fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            obj = JSON.parse(data); //now it an object
+            console.log("Read data file old-fashioned way: " + obj);
+            if (obj) projects = obj;
+        }
+    });
+}
+getFiles();
+
 //uploadFile("freelancers.json", bucket);
 //uploadFile("clients.json", bucket);
 //uploadFile("projects.json", bucket);
-downloadFile("freelancers.json", bucket);
-downloadFile("clients.json", bucket);
-downloadFile("projects.json", bucket);
-// freelancers = read("freelancers.json");
-// clients = read("clients.json");
+/** Pulls data down from S3 into local files */
+// downloadFile("freelancers.json", bucket);
+// downloadFile("clients.json", bucket);
+// downloadFile("projects.json", bucket);
+// // freelancers = read("freelancers.json");
+// // clients = read("clients.json");
 
-//projects = read("projects.json");
+// //projects = read("projects.json");
 
-// reads file (.json) into variable
-fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        console.log("Read data file old-fashioned way: " + obj);
-        if (obj) freelancers = obj;
-    }
-});
-// reads file (.json) into variable
-fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        console.log("Read data file old-fashioned way: " + obj);
-        if (obj) clients = obj;
-    }
-});
-// reads file (.json) into variable
-fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
-    if (err) {
-        console.log(err);
-    } else {
-        obj = JSON.parse(data); //now it an object
-        console.log("Read data file old-fashioned way: " + obj);
-        if (obj) projects = obj;
-    }
-});
+// // reads file (.json) into variable
+// fs.readFile("freelancers.json", 'utf8', function readFileCallback(err, data) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         obj = JSON.parse(data); //now it an object
+//         console.log("Read data file old-fashioned way: " + obj);
+//         if (obj) freelancers = obj;
+//     }
+// });
+// // reads file (.json) into variable
+// fs.readFile("clients.json", 'utf8', function readFileCallback(err, data) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         obj = JSON.parse(data); //now it an object
+//         console.log("Read data file old-fashioned way: " + obj);
+//         if (obj) clients = obj;
+//     }
+// });
+// // reads file (.json) into variable
+// fs.readFile("projects.json", 'utf8', function readFileCallback(err, data) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         obj = JSON.parse(data); //now it an object
+//         console.log("Read data file old-fashioned way: " + obj);
+//         if (obj) projects = obj;
+//     }
+// });
 
 
 app.use(express.static('public'));
@@ -231,6 +268,7 @@ app.get('/client/account/register.html', function (req, res) {
     res.sendFile(__dirname + "/client/account/" + "register.html");
 })
 app.post('/client/account/register.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     var p = '';
     // bcrypt.hash(req.body.password, 10, function(err, hash) {
@@ -252,6 +290,7 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         project_ids: matchEmails(req.body.email),
         timestamp: time
     };
+
     var client_id = parseInt(Object.keys(clients).length + 1);
     clients[client_id] = response;
     req.session.user = client_id;
@@ -302,6 +341,7 @@ app.get('/client/account/login.html', function (req, res) {
     res.sendFile(__dirname + "/client/account/" + "login.html");
 })
 app.post('/client/account/login.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     response = {
         email: req.body.email,
@@ -370,6 +410,7 @@ app.get('/freelancer/account/addinfo.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "addinfo.html");
 })
 app.post('/freelancer/account/addinfo.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     freelancers[req.session.user]['field'] = req.body.lineOfWork;
     freelancers[req.session.user]['hours'] = req.body.typeOfFreelancer;
@@ -403,6 +444,7 @@ app.get('/freelancer/account/login.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "login.html");
 })
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     response = {
         email: req.body.email,
@@ -437,6 +479,7 @@ app.get('/freelancer/account/register.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/account/" + "register.html");
 })
 app.post('/freelancer/account/register.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     // this is filled out
     var time = new Date().getUTCMilliseconds(); // creates validation time for each user
@@ -471,6 +514,7 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/project/" + "addclient.html");
 })
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     var proj_id = parseInt(Object.keys(projects).length + 1);
 
@@ -522,6 +566,7 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/project/" + "addmilestones.html");
 })
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
+    getFiles();
     // Prepare output in JSON format
     var amount;
     amount = req.body.fixedAmount;
@@ -562,6 +607,9 @@ app.get('/freelancer/project/dashboard.html', function (req, res) {
     res.sendFile(__dirname + "/freelancer/project/" + "dashboard.html");
 })
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
+    /** Should never be reached */
+
+    
     // We should never be posting to dashboard. We post to /approve_method
     
     // Prepare output in JSON format
