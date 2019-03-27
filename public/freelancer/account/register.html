@@ -60,35 +60,35 @@
                     <!-- Bumper -->
                 </div>
                 <div class="col-md-6 col-sm-10">
-                    <form role="form" method="post" action="/freelancer/account/register.html/post">
+                    <form role="form" name = "f" method="post" action="/freelancer/account/register.html/post" onsubmit="return validateForm()">
                         <fieldset>
                             <p class="pull-center">Let's set up your account.</p>
                             <div class="form-group">
                                 <label class="form">First Name: </label>
                                 <input type="text" name="firstname" id="firstname" class="form-control input-lg"
-                                    placeholder="First Name">
+                                    placeholder="First Name" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="lastname" id="lastname" class="form-control input-lg"
-                                    placeholder="Last Name">
+                                    placeholder="Last Name" required>
                             </div>
 
                             <div class="form-group">
-                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" required>
                             </div>
 
                             <div class="form-group">
                                 <input type="password" name="password" id="password" class="form-control input-lg"
-                                    placeholder="Password">
+                                    placeholder="Password" required>
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password2" id="password2" class="form-control input-lg"
-                                    placeholder="Confirm Password">
+                                    placeholder="Confirm Password" required>
                             </div>
                             <!-- Need to add form validation -->
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
+                                    <input id="checkbox" name="agree" type="checkbox" class="form-check-input" required>
                                     I agree to LifeWork's <a href="">terms and conditions</a>
                                 </label>
                             </div>
@@ -116,6 +116,24 @@
             })
         </script> -->
 </body>
+<script>
+        function validateForm() {
+    var x = document.forms["f"]["password"].value;
+    var y = document.forms["f"]["password2"].value;
+    if (x != y) {
+        alert("Passwords must match");
+        return false;
+    }
+    if (x.length < 7) {
+        alert("Password must be at least 7 characters");
+        return false;
+    }
+    if (document.getElementById("checkbox").checked != true) {
+        alert("Must agree to terms and conditions");
+        return false;
+    }
+    }
 
+</script>
 
 </html>
