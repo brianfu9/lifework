@@ -242,6 +242,7 @@ app.use(express.static('public'));
 //////////////// INDEX PAGE \\\\\\\\\\\\\\\\
 //////////////////////\\\\\\\\\\\\\\\\\\\\\\
 app.get('/', function (req, res) {
+    getFiles();
     res.sendFile(__dirname + "" + "index.html");
 })
 
