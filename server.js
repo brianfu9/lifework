@@ -338,6 +338,7 @@ app.post('/client/project/dashboard.html/post', urlencodedParser, function (req,
 
 
 app.get('/client/account/login.html', function (req, res) {
+    getFiles();
     res.sendFile(__dirname + "/client/account/" + "login.html");
 })
 app.post('/client/account/login.html/post', urlencodedParser, function (req, res) {
@@ -441,6 +442,7 @@ app.post('/freelancer/account/addpayment.html/post', urlencodedParser, function 
     res.end(JSON.stringify(response));
 })
 app.get('/freelancer/account/login.html', function (req, res) {
+    getFiles();
     res.sendFile(__dirname + "/freelancer/account/" + "login.html");
 })
 app.post('/freelancer/account/login.html/post', urlencodedParser, function (req, res) {
@@ -625,7 +627,6 @@ app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (
     // }
     
         //TODO: fill this out
-    
     res.end(JSON.stringify(response));
 })
 
@@ -707,7 +708,7 @@ app.get('/projects', function (req, res) {
 
 app.get('/remainingamt', function (req, res) {
     if (req.session.remaining_amount) {
-        res.end(req.session.remaining_amount);
+        res.end(toString(req.session.remaining_amount));
     } else {
     res.end("");
     }
@@ -716,7 +717,7 @@ app.get('/remainingamt', function (req, res) {
 app.get('/projectamt', function (req, res) {
     if (req.session.product) {
     if (req.session.amount) {
-        res.end(req.session.amount);
+        res.end(toString(req.session.amount));
     } else {
     res.end("");
     }
