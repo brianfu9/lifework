@@ -721,6 +721,8 @@ app.get('/projectamt', function (req, res) {
     } else {
     res.end("");
     }
+    } else {
+        res.end("");
     }
 })
 
