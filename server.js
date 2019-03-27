@@ -353,8 +353,14 @@ OPTIONS:
 
 // account
 
-app.get('/logout', function (req, res) {
-    req.session.destroy()
+app.get('/flogout', function (req, res) {
+    req.session.destroy();
+    res.redirect('/freelancer/account/login.html');
+    //res.end(req.session.user);
+})
+app.get('/clogout', function (req, res) {
+    req.session.destroy();
+    res.redirect('/client/account/login.html');
     //res.end(req.session.user);
 })
 
@@ -465,6 +471,14 @@ app.get('/freelancer/project/addclient.html', function (req, res) {
 app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     var proj_id = parseInt(Object.keys(projects).length + 1);
+
+    // Upload contract
+    /*
+        1. Create project filename
+        2. Upload file to AWS
+        3. Store filename in JSON file
+    */
+
     response = {
         id: proj_id,
         client_id: -1,
