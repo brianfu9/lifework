@@ -586,6 +586,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
     };
     // Check that we haven't gone over
     req.session.remaining_amount = req.session.remaining_amount - amount;
+    console.log("project: " + req.session.project + " | response: " + JSON.stringify(response));
     projects[req.session.project]['milestones'].push(response);
     //TODO: AWS switchover (done)
     fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
@@ -609,7 +610,7 @@ app.get('/freelancer/project/dashboard.html', function (req, res) {
 app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (req, res) {
     /** Should never be reached */
 
-    
+
     // We should never be posting to dashboard. We post to /approve_method
     
     // Prepare output in JSON format
@@ -707,15 +708,19 @@ app.get('/projects', function (req, res) {
 app.get('/remainingamt', function (req, res) {
     if (req.session.remaining_amount) {
         res.end(req.session.remaining_amount);
-    }
+    } else {
     res.end("");
+    }
 })
 
 app.get('/projectamt', function (req, res) {
+    if (req.session.product) {
     if (req.session.amount) {
         res.end(req.session.amount);
-    }
+    } else {
     res.end("");
+    }
+    }
 })
 
 app.get('/client_projects', function (req, res) {
