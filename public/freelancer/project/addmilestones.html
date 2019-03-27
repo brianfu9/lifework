@@ -15,7 +15,7 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local -----> 
+    <!---- boostrap.min link local ----->
 
     <link rel="stylesheet" href="css/style.css">
     <!---- boostrap.min link local ----->
@@ -29,8 +29,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
 
-<script src="/js/getheader.js"></script>
-<script src="/js/validatelogin.js"></script>
+    <script src="/js/getheader.js"></script>
+    <script src="/js/validatelogin.js"></script>
 
     <script src="./style/calendar.js"></script>
 
@@ -52,55 +52,57 @@
                 </div> -->
                 <div class="">
                     <div class="card my-4 shadow-sm">
-                            
-                                <div class="card-header">
-                                    <h4>Milestone</h4> 
-                                </div>
-                                <div class="card-body">
-                                    
-                                <form role="form" method="post" class="ws-validate form-inline border-0" action="/freelancer/project/addmilestones.html/post">
-                                    <!-- <fieldset> -->
 
-                                            <div class="mb-2">
-                                                    <div class="d-inline-block col-md-3 px-0">Milestone ~1~</div>
-                                                        <div class="d-inline-block col-md-4 px-4">
-                                                                <input class="form-control input-lg" type="text" autocomplete="on" name="desc" placeholder="Description">
-                                                        </div>
-                                                        <div class="d-inline-block col-md-4 px-4">
-                                                                <input class="form-control input-sm" type="date" autocomplete="on" name="date" value="~date~">
-                                                        </div>
-                                                    </div>
+                        <div class="card-header">
+                            <h4>Milestone</h4>
+                        </div>
+                        <div class="card-body">
 
+                            <form role="form" name="f" method="post" class="ws-validate form-inline border-0" action="/freelancer/project/addmilestones.html/post"
+                                onsubmit="return validateForm()">
+                                <!-- <fieldset> -->
 
-                                    <div class="d-inline-block col-md-3 px-0">Milestone Payment Details</div>
-                                    <!-- <input type="date" class="hide-replaced col-sm-12 col-md-4" value="date"> -->
+                                <div class="mb-2">
+                                    <div class="d-inline-block col-md-3 px-0">Milestone ~1~</div>
                                     <div class="d-inline-block col-md-4 px-4">
-                                    <input type="text" class="form-control input-lg" id="amount" name="amount" value="100.00">
+                                        <input class="form-control input-lg" type="text" autocomplete="on" name="desc"
+                                            placeholder="Description">
                                     </div>
                                     <div class="d-inline-block col-md-4 px-4">
+                                        <input class="form-control input-sm" type="date" autocomplete="on" name="date"
+                                            value="~date~">
+                                    </div>
+                                </div>
+
+
+                                <div class="d-inline-block col-md-3 px-0">Milestone Payment Details</div>
+                                <!-- <input type="date" class="hide-replaced col-sm-12 col-md-4" value="date"> -->
+                                <div class="d-inline-block col-md-4 px-4">
+                                    <input type="text" class="form-control input-lg" id="amount" name="amount" value="100.00">
+                                </div>
+                                <div class="d-inline-block col-md-4 px-4">
                                     <select class="form-control input-lg" id="unitOfMoney" name="unitOfMoney">
                                         <option value="percent">Percent (%)</option>
                                         <option value="dollars">US Dollars ($)</option>
                                     </select>
-                                    </div>
+                                    <div id="fixedBody"> </div>
                                 </div>
-                                <br>
-                                <!-- <div class="form-group form-row">
+                        </div>
+                        <br>
+                        <!-- <div class="form-group form-row">
                                     <input type="text" class="form-control my-3 input-lg col-sm-12 col-md-6" id="description" name="description"
                                         placeholder="Description of milestone" style="width:100%">
                                 </div> -->
-                                <div class="form-group form-row">
-                                <input type="submit" class="btn btn-md btn-primary pull-center"
-                                    value="Add More" name="submit"></input>
-                                <input type="submit" id="" class="btn btn-lg btn-primary pull-center" value="finish"
-                                    name="Save and Finish"></input>
-                                </div>
-                            <!-- </fieldset>     -->
-                            </form>
-                                </div>
-                            
+                        <div class="form-group form-row">
+                            <input type="submit" class="btn btn-md btn-primary pull-center" value="Add More" name="submit"></input>
+                            <input type="submit" id="" class="btn btn-lg btn-primary pull-center" value="finish" name="Save and Finish"></input>
+                        </div>
+                        <!-- </fieldset>     -->
+                        </form>
                     </div>
+
                 </div>
+            </div>
 
             <!-- <div class="col-md-2 col-sm-1">
 
@@ -122,5 +124,49 @@
         })
     </script> -->
 </body>
+
+<script>
+    //we need TWO APIs. total amount and remainng amount
+    function validateForm() {
+        var total_amount;
+        $.get("/projectamt", function (data) {
+            if (!data) {
+                alert('Could not load project data.');
+                //window.location.href = "/freelancer/account/login.html";
+            } else {
+                total_amount = parseFloat(data);
+            }
+        });
+        var remaining_amount;
+        $.get("/remainingamt", function (data) {
+            if (!data) {
+                alert('Could not load project data.');
+                //window.location.href = "/freelancer/account/login.html";
+            } else {
+                remaining_amount = parseFloat(data);
+            }
+        });
+
+        var milestone_amount;
+        var amt_unformatted = document.forms["f"]["amount"].value;
+        var y = document.forms["f"]["unitOfMoney"].value;
+        if (y == 'percent') {
+            milestone_amount = Math.ceil(parseFloat(amt_unformatted) / 100 * total_amount);
+        } else {
+            milestone_amount = Math.floor(parseFloat(milestone_amount) * 100);
+        }
+
+        //now, we need to check if milestone_amount is less than remaining amount
+
+        if (milestone_amount > remaining_amount) {
+            alert('Milestone payment too high: set to ' + remaining_amount);
+            milestone_amount = remaining_amount;
+        } //milestone_amount is now corrected
+
+        //set hidden value to milestone amount
+        var amountstr = '<input type="hidden" id="fixedMoney" name="fixedAmount">'
+        $("#fixedBody").html(finalhtml);
+    }
+</script>
 
 </html>

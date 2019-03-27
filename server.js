@@ -480,7 +480,7 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         2. Upload file to AWS
         3. Store filename in JSON file
     */
-
+    var amount = Math.floor(parseFloat(req.body.amount) * 100);
     response = {
         id: proj_id,
         client_id: -1,
@@ -492,12 +492,14 @@ app.post('/freelancer/project/addclient.html/post', urlencodedParser, function (
         freelancer_lastname: freelancers[req.session.user]['lastname'],
         name: req.body.projname,
         contract: req.body.contract,
-        amount: Math.floor(parseFloat(req.body.amount) * 100),
+        amount: amount,
         milestones: [],
     };
     projects[proj_id] = response;
     freelancers[req.session.user]['project_ids'].push(proj_id);
     req.session.project = proj_id;
+    req.session.amount = amount;
+    req.session.remaining_amount = amount;
     //TODO: AWS switchover (done)
     fs.writeFile('freelancers.json', JSON.stringify(freelancers), 'utf8', (err) => {
         if (err) throw err;
@@ -522,11 +524,12 @@ app.get('/freelancer/project/addmilestones.html', function (req, res) {
 app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, function (req, res) {
     // Prepare output in JSON format
     var amount;
-    if (req.body.unitOfMoney == 'percent') {
-        amount = Math.ceil(parseFloat(req.body.amount) / 100 * projects[req.session.project]['amount']);
-    } else {
-        amount = Math.floor(parseFloat(req.body.amount) * 100);
-    }
+    amount = req.body.fixedAmount;
+    // if (req.body.unitOfMoney == 'percent') {
+    //     amount = Math.ceil(parseFloat(req.body.amount) / 100 * projects[req.session.project]['amount']);
+    // } else {
+    //     amount = Math.floor(parseFloat(req.body.amount) * 100);
+    // }
     response = {
         'date': req.body.date,
         'amount': amount,
@@ -536,6 +539,8 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         'freelancer_approved': false,
         
     };
+    // Check that we haven't gone over
+    req.session.remaining_amount = req.session.remaining_amount - amount;
     projects[req.session.project]['milestones'].push(response);
     //TODO: AWS switchover (done)
     fs.writeFile('projects.json', JSON.stringify(projects), 'utf8', (err) => {
@@ -649,6 +654,20 @@ app.get('/projects', function (req, res) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
+})
+
+app.get('/remainingamt', function (req, res) {
+    if (req.session.remaining_amount) {
+        res.end(req.session.remaining_amount);
+    }
+    res.end("");
+})
+
+app.get('/projectamt', function (req, res) {
+    if (req.session.amount) {
+        res.end(req.session.amount);
+    }
+    res.end("");
 })
 
 app.get('/client_projects', function (req, res) {
