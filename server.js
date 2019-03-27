@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var bcrypt = require('bcrypt'); // hashing
 var aws = require('aws-sdk'); //aws s3
-//var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
+var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
 
  
 // Configure aws
@@ -18,19 +18,19 @@ Not sure if this logic is foolproof^. (But I think it is).
 */
 
 /* Uncomment if running on localhost */
-/*aws.config.update({ 
+aws.config.update({ 
     accessKeyId: awsKey['key'],
     secretAccessKey: awsKey['secret']
 });
 var s3 = new aws.s3();
-*/
+
 
 // Uncomment if running on heroku 
-let s3 = new aws.S3({
-    accessKeyId: process.env.S3_KEY,
-    secretAccessKey: process.env.S3_SECRET
-});
-var bucket = "lifeworkonlinebucket";
+// let s3 = new aws.S3({
+//     accessKeyId: process.env.S3_KEY,
+//     secretAccessKey: process.env.S3_SECRET
+// });
+// var bucket = "lifeworkonlinebucket";
 
 
 // Create application/x-www-form-urlencoded parser
