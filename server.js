@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var bcrypt = require('bcrypt'); // hashing
 var aws = require('aws-sdk'); //aws s3
-//var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
+var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
 
  
 // Configure aws
@@ -18,18 +18,18 @@ Not sure if this logic is foolproof^. (But I think it is).
 */
 
 /* Uncomment if running on localhost */
-/*aws.config.update({ 
+aws.config.update({ 
     accessKeyId: awsKey['key'],
     secretAccessKey: awsKey['secret']
 });
-var s3 = new aws.s3();
-*/
+var s3 = new aws.S3();
+
 
 // Uncomment if running on heroku 
-let s3 = new aws.S3({
-    accessKeyId: process.env.S3_KEY,
-    secretAccessKey: process.env.S3_SECRET
-});
+// let s3 = new aws.S3({
+//     accessKeyId: process.env.S3_KEY,
+//     secretAccessKey: process.env.S3_SECRET
+// });
 var bucket = "lifeworkonlinebucket";
 
 
@@ -758,11 +758,11 @@ app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
     res.redirect("/client/project/" + "dashboard.html");
 })
 
-// app.post('/token', function ( req , res) {
-//     console.log('body is ' + req.body);
-//     token = req.body.token;
-//     console.log(token);
-// })
+app.post('/token', function ( req , res) {
+    console.log('body is ' + req.body);
+    token = req.body.token;
+    console.log('token is: ' + token);
+})
 
 app.get('/project', function (req, res) {
     var proj = "";
