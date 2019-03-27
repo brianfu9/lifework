@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"1":{"firstname":"Jordan","lastname":"Chernof","email":"jordan.chernof@gmail.com","password":"$2b$10$.Cr9JoSHTcwqrrPmAhgl5udYR3xp56HS6WcOeXFc23myLy0ail7YG","project_ids":[],"timestamp":714}}
+=======
+{"1":{"firstname":"New","lastname":"Freelancer","email":"jordan.chernof@gmail.com","password":"$2b$10$3wsFq5sdEj9HAw2G.mSIOufAc2O2APC7VQPlwc2Dkm8yvsj3Y6xn2","project_ids":[1,2,3],"timestamp":961,"field":"softwareDev","hours":"partTime"}}
+>>>>>>> 783007f9d17b4059e30511b9b7fafaf5280f4e1c
