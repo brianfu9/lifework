@@ -52,7 +52,7 @@
                     <!-- Bumper -->
                 </div>
                 <div class="col-md-6 col-sm-10">
-                    <form role="form" method="post" action="/client/account/register.html/post">
+                    <form role="form" name="f" method="post" action="/client/account/register.html/post" onsubmit="return validateForm()">
                         <fieldset>
                             <p class="pull-center">Let's set up your account.</p>
                             <div class="form-group">
@@ -99,5 +99,14 @@
     </div>
 </body>
 
-
+<script>
+        function validateForm() {
+    var x = document.forms["f"]["password"].value;
+    var y = document.forms["f"]["password2"].value;
+    if (x != y) {
+        alert("Passwords must match");
+        return false;
+    }
+    }
+</script>
 </html>
