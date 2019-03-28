@@ -778,6 +778,11 @@ app.get('/project', function (req, res) {
 })
 
 app.get('/create_account', function (req, res) {
+    if (req.session.user_type == 'client') {
+        clients[req.session.user]['account'] = req.query.code;
+    } else {
+        freelancers[req.session.user]['account'] = req.query.code;
+    }
     res.end(req.query.code);
 })
 
