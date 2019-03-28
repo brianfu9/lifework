@@ -777,6 +777,10 @@ app.get('/project', function (req, res) {
     res.end(proj);
 })
 
+app.get('/create_account', function (req, res) {
+    res.end(req.query.code);
+})
+
 app.get('/fname', function (req, res) {
     res.end(projects[req.session.project])
 })

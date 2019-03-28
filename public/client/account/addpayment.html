@@ -18,7 +18,7 @@
     <!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!---- boostrap.min link local -----> 
+    <!---- boostrap.min link local ----->
 
 
 
@@ -49,18 +49,7 @@
                     <!-- Bumper -->
                 </div>
                 <div class="col-md-4 col-sm-8">
-                    <form action="/charge" method="POST">
-                        <!-- fill in dollar amount from project amount here-->
-                        <script
-                            src="https://checkout.stripe.com/checkout.js"
-                            class="stripe-button"
-                            data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                            data-image=""
-                            data-name="Demo Site"
-                            data-description="2 widgets ($20.00)"
-                            data-amount="2000"> 
-                        </script>
-                        </form>
+                    <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_EmKdQKUufu1gZPNShwhr3IDnYtTGptv2&scope=read_only">connect with stripe</a>
                 </div>
 
                 <div class="col-md-4 col-sm-2">
