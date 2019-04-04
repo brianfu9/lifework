@@ -53,6 +53,7 @@ var clients = {}
 //         password: long,
 //         project_ids: [int],
 //         timestamp: string (account creation)
+//         hasPayment: boolean,
 //     }
 // }
 var freelancers = {}
@@ -65,7 +66,8 @@ var freelancers = {}
 //         project_ids: [int]
 //         field: string,
 //         hours: string,
-//         timstamp: string (account creation)
+//         timestamp: string (account creation)
+//         hasPayment: boolean,
 //     }
 // }
 var projects = {}
