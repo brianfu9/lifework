@@ -6,7 +6,95 @@ var fs = require('fs');
 //might not need this path variable
 var path = require('path');
 var bcrypt = require('bcrypt'); // hashing
-var aws = require('aws-sdk'); //aws s3
+/* var aws = require('aws-sdk'); //aws s3 */
+
+/*
+
+    ~~~MongoDB Server~~~
+    Table: (slightly different format)
+    1) id : number
+    2) object : dictionary
+    We could fix it by just 
+*/
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+var database;
+// Connection URL
+//const url = ('mongodb://@%s:%s/', host, port);
+const url = ('mongodb://localhost:27017/');
+console.log("url");
+//http://%s:%s", host, port
+// Use connect method to connect to the Server
+const client = new MongoClient(url);
+var lwdb, freelancers_db, clients_db, projects_db;
+client.connect(function(err, next) {
+    if (err) {
+        console.log("error: "+err);
+    } else {
+        console.log("succesfully connected client");
+
+        lwdb = client.db("lwdb");
+        freelancers_db = lwdb.collection("freelancers");
+        clients_db = lwdb.collection("clients");
+        projects_db = lwdb.collection("projects");
+    
+
+    freelancers_db.insert(
+
+        {
+                 1: {
+                     firstname: "margerat",
+                     lastname: "misyutina",
+                     email: "princess.maggie007@gmail.com",
+                     password: "long",
+                     project_ids: [],
+                     field: "stretching",
+                     hours: "10",
+                     timestamp: "190201902",
+                     hasPayment: "false",
+                 }
+        }, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("gr8 success");
+            }
+            
+        }
+    )  
+
+    console.log("point is " + freelancers_db.find({id:'1'}).toArray()[1]);
+    }
+    next();
+});
+
+
+/* WRITE */
+// var d = {
+//     id: {
+        
+//     }
+// }
+// freelancers_db.insert(d, (err, result) => {
+//     console.log(err || "successful input");
+// });
+
+/* READ */
+// console.log(freelancers_db.find({id:'1'}).toArray());
+freelancers_db = client.db('freelancrs');
+freelancers_db.find({id:1}).toArray(function(err, docs) {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log("%s records found", docs.length);
+    }
+  });
+
+setTimeout(function(){ console.log("Waiting"); }, 3000);
+
+
+
+
 // var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
 
  
@@ -25,14 +113,15 @@ Not sure if this logic is foolproof^. (But I think it is).
 // var s3 = new aws.S3();
 
 
-// Uncomment if running on heroku 
+// Uncomment if running on heroku
+/*
 let s3 = new aws.S3({
     accessKeyId: process.env.S3_KEY,
     secretAccessKey: process.env.S3_SECRET
 });
 var bucket = "lifeworkonlinebucket";
 
-
+*/
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -117,7 +206,7 @@ var read = (filePath) => {
             }
         });
 }
-
+/*
 var uploadFile = (filePath, bucketName) => {
     var params = {
             Bucket: bucketName,
@@ -195,7 +284,7 @@ var getFiles = () => {
 
 
 getFiles();
-
+*/
 //uploadFile("freelancers.json", bucket);
 //uploadFile("clients.json", bucket);
 //uploadFile("projects.json", bucket);
@@ -246,7 +335,7 @@ app.use(express.static('public'));
 //////////////// INDEX PAGE \\\\\\\\\\\\\\\\
 //////////////////////\\\\\\\\\\\\\\\\\\\\\\
 app.get('/', function (req, res) {
-    getFiles();
+    //getFiles();
     res.sendFile(__dirname + "" + "index.html");
 })
 
@@ -273,7 +362,7 @@ app.get('/client/account/register.html', function (req, res) {
     res.sendFile(__dirname + "/client/account/" + "register.html");
 })
 app.post('/client/account/register.html/post', urlencodedParser, function (req, res) {
-    getFiles();
+    //getFiles();
     // Prepare output in JSON format
     var p = '';
     // bcrypt.hash(req.body.password, 10, function(err, hash) {
@@ -296,7 +385,9 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
         timestamp: time
     };
 
+    //fix
     var client_id = parseInt(Object.keys(clients).length + 1);
+    // fix
     clients[client_id] = response;
     req.session.user = client_id;
     req.session.user_type = 'client';
