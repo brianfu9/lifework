@@ -14,65 +14,32 @@ var bcrypt = require('bcrypt'); // hashing
     Table: (slightly different format)
     1) id : number
     2) object : dictionary
-    We could fix it by just 
+    
+    Rules:
+    1) Every time we query, we look up by ID and then return the values item as an array
+    2) Every time we update, 
 */
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+
+
+
 var database;
 // Connection URL
 //const url = ('mongodb://@%s:%s/', host, port);
-const url = ('mongodb://localhost:27017/');
+const url = ('mongodb://localhost:27017/'); /* localboi */
+//const url = ('mongodb+srv://jchernof:securePass@lwdbcluster-rpprd.mongodb.net/test?retryWrites=true');
+//const url = ('mongodb+srv://jchernof:securePass@lwdbcluster-rpprd.mongodb.net/test?ssl=true&authSource=admin');
 console.log("url");
 //http://%s:%s", host, port
 // Use connect method to connect to the Server
 const client = new MongoClient(url);
 var lwdb, freelancers_db, clients_db, projects_db;
-client.connect(function(err, next) {
-    if (err) {
-        console.log("error: "+err);
-    } else {
-        console.log("succesfully connected client");
-
-        lwdb = client.db("lwdb");
-        freelancers_db = lwdb.collection("freelancers");
-        clients_db = lwdb.collection("clients");
-        projects_db = lwdb.collection("projects");
-    
-
-    freelancers_db.insert(
-
-        {
-                 1: {
-                     firstname: "margerat",
-                     lastname: "misyutina",
-                     email: "princess.maggie007@gmail.com",
-                     password: "long",
-                     project_ids: [],
-                     field: "stretching",
-                     hours: "10",
-                     timestamp: "190201902",
-                     hasPayment: "false",
-                 }
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("gr8 success");
-            }
-            
-        }
-    )  
-
-    console.log("point is " + freelancers_db.find({id:'1'}).toArray()[1]);
-    }
-    next();
-});
-
 
 /* WRITE */
 // var d = {
 //     id: {
-        
+
 //     }
 // }
 // freelancers_db.insert(d, (err, result) => {
@@ -81,7 +48,7 @@ client.connect(function(err, next) {
 
 /* READ */
 // console.log(freelancers_db.find({id:'1'}).toArray());
-freelancers_db = client.db('freelancrs');
+/* freelancers_db = client.db('freelancers');
 freelancers_db.find({id:1}).toArray(function(err, docs) {
     if (err) {
         console.log(err)
@@ -89,15 +56,15 @@ freelancers_db.find({id:1}).toArray(function(err, docs) {
         console.log("%s records found", docs.length);
     }
   });
-
-setTimeout(function(){ console.log("Waiting"); }, 3000);
+*/
+setTimeout(function () { console.log("Waiting"); }, 3000);
 
 
 
 
 // var awsKey = require('./apikey'); //aws s3 keys (NEED TO UPLOAD YOUR OWN apikey.js file in root directory if running on localhost)
 
- 
+
 // Configure aws
 /*
 Note about AWS: this (should) download files from AWS every time the server starts up.
@@ -135,19 +102,20 @@ app.use(function (req, res, next) {
 
 var clients = {}
 // clients = {
-//     id: {
-//         firstname: string,
-//         lastname: string,
-//         email: string,
-//         password: long,
-//         project_ids: [int],
-//         timestamp: string (account creation)
-//         hasPayment: boolean,
-//     }
+//     id: client_id, (int)
+//     firstname: req.body.firstname, (string)
+//     lastname: req.body.lastname, (string)
+//     email: req.body.email, (string)
+//     password: p, (string)
+//     project_ids: matchEmails(req.body.email), (string)
+//     timestamp: time, (int)
+//     hasPayment: false (boolean)
 // }
+// 
 var freelancers = {}
 // freelancers = {
-//     id: {
+//     id: int,
+//     values: {
 //         firstname: string,
 //         lastname: string,
 //         email: string,
@@ -160,21 +128,22 @@ var freelancers = {}
 //     }
 // }
 var projects = {}
-    // projects = {
-    //     id: {
-    //         id: int,
-    //         client_id: int,
-    //         client_firstname: string,
-    //         client_lastname: string,
-    //         client_email: string
-    //         freelancer_id: int,
-    //         freelancer_firtname: string,
-    //         name: string,
-    //         amount: int, (number of cents)
-    //         contract: string, (file location)
-    //         milestones: [<milestone_object>],
-    //     }
-    // }
+// projects = {
+//     id: int,
+//     values: {
+//         id: int,
+//         client_id: int,
+//         client_firstname: string,
+//         client_lastname: string,
+//         client_email: string
+//         freelancer_id: int,
+//         freelancer_firtname: string,
+//         name: string,
+//         amount: int, (number of cents)
+//         contract: string, (file location)
+//         milestones: [<milestone_object>],
+//     }
+// }
 // milestone_object = {
 //     date: date_object,
 //     amount: int, (number of cents)
@@ -197,14 +166,14 @@ var projects = {}
 // });*/
 var read = (filePath) => {
     fs.readFile(filePath, 'utf8', function readFileCallback(err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                obj = JSON.parse(data); //now it an object
-                console.log("Read data file: " + obj);
-                if (obj) return obj;
-            }
-        });
+        if (err) {
+            console.log(err);
+        } else {
+            obj = JSON.parse(data); //now it an object
+            console.log("Read data file: " + obj);
+            if (obj) return obj;
+        }
+    });
 }
 /*
 var uploadFile = (filePath, bucketName) => {
@@ -376,35 +345,69 @@ app.post('/client/account/register.html/post', urlencodedParser, function (req, 
 
     p = bcrypt.hashSync(req.body.password, 10);
 
-    response = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: p,
-        project_ids: matchEmails(req.body.email),
-        timestamp: time
-    };
+    // get length and replace here (client_id = length + 1)
+    // var client_id = parseInt(Object.keys(clients).length + 1);
+    var client_id = 4;
+    // insert {"id: "}
+    // clients[client_id] = response;
+    // console.log("num clients right now: " + clients_db.find().length);
 
-    //fix
-    var client_id = parseInt(Object.keys(clients).length + 1);
-    // fix
-    clients[client_id] = response;
-    req.session.user = client_id;
-    req.session.user_type = 'client';
+    // insert new client
+client.connect(function (err) {
+    //console.log("in connect function");
+    if (err) {
+        console.log("error: " + err);
+    } else {
+        
 
-    //TODO: AWS switchover (done)
+        console.log("succesfully connected client");
+        lwdb = client.db("lwdb");
+        clients_db = lwdb.collection("clients");
+        cid = (parseInt(clients_db.count()) || 0) + 1;
+        console.log(cid);
+        response = {
+            id: cid,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: p,
+            project_ids: matchEmails(req.body.email),
+            timestamp: time,
+            hasPayment: false
+        };
+
+        clients_db.insert(response, (err, result) => {
+                if (err) { console.log(err); }
+                else {
+                    console.log("registered client");
+                    console.log(cid);
+                }
+            }
+        ) // end insert function
+
+        req.session.user = cid;
+        console.log()
+        req.session.user_type = 'client';
     
-    fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
-        if (err) throw err;
-        console.log('The file has been saved!');
-    }); 
-    uploadFile("clients.json", bucket);
-    console.log("Uploaded client file to S3");
+        //TODO: AWS switchover (done)
+    
+        fs.writeFile('clients.json', JSON.stringify(clients), 'utf8', (err) => {
+            if (err) throw err;
+            console.log('The file has been saved!');
+        });
+        
+        
+        // uploadFile("clients.json", bucket);
+        // console.log("Uploaded client file to S3");
+    
+        //take existing clients file and just upload (?)
+    
+        //console.log(response);
+        res.redirect("/client/project/" + "dashboard.html");
+    } // end else statement
+}); // end client insert
 
-    //take existing clients file and just upload (?)
-
-    console.log(response);
-    res.redirect("/client/project/" + "dashboard.html");
+    
 })
 
 // project
@@ -434,11 +437,11 @@ app.post('/client/project/dashboard.html/post', urlencodedParser, function (req,
 
 
 app.get('/client/account/login.html', function (req, res) {
-    getFiles();
+    //getFiles();
     res.sendFile(__dirname + "/client/account/" + "login.html");
 })
 app.post('/client/account/login.html/post', urlencodedParser, function (req, res) {
-    getFiles();
+    //getFiles();
     // Prepare output in JSON format
     response = {
         email: req.body.email,
@@ -456,10 +459,10 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
     if (user_id == -1) {
         res.sendFile(__dirname + "/public/client/account/" + "login.html");
     } else {
-        
+
         //if (req.body.password == clients[user_id]['password']) {
         if (bcrypt.compareSync(req.body.password, clients[user_id]['password'])) {
-        
+
             // sets a cookie with the user's info
             req.session.user = user_id;
             req.session.user_type = 'client';
@@ -469,15 +472,15 @@ app.post('/client/account/login.html/post', urlencodedParser, function (req, res
             res.sendFile(__dirname + "/public/client/account/" + "login.html");
         }
     }
-    
+
     console.log(response);
     res.sendFile(__dirname + "/public/client/account/" + "login.html");
 })
 
 // if (clients[req.session.user]['timestamp'] == req.body.key) {
-    //let them through
+//let them through
 //} else {
-    // don't let them in
+// don't let them in
 //}
 /* But this means that people can change user id to get different hash
 
@@ -560,7 +563,7 @@ app.post('/freelancer/account/login.html/post', urlencodedParser, function (req,
     if (user_id == -1) {
         res.sendFile(__dirname + "/public/freelancer/account/" + "login.html");
     } else {
-        
+
         if (bcrypt.compareSync(req.body.password, freelancers[user_id]['password'])) {
             // sets a cookie with the user's info
             req.session.user = user_id;
@@ -582,14 +585,15 @@ app.post('/freelancer/account/register.html/post', urlencodedParser, function (r
     // this is filled out
     var time = new Date().getUTCMilliseconds(); // creates validation time for each user
     p = bcrypt.hashSync(req.body.password, 10);
-    
+
     response = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
         password: p,
         project_ids: [],
-        timestamp: time
+        timestamp: time,
+        hasPayment: false
     };
     var freelancer_id = parseInt(Object.keys(freelancers).length) + 1;
     freelancers[freelancer_id] = response;
@@ -680,7 +684,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
         'feedback': '',
         'client_approved': false,
         'freelancer_approved': false,
-        
+
     };
     // Check that we haven't gone over
     req.session.remaining_amount = req.session.remaining_amount - amount;
@@ -699,7 +703,7 @@ app.post('/freelancer/project/addmilestones.html/post', urlencodedParser, functi
     } else {
         res.redirect("/freelancer/project/" + "dashboard.html");
     }
-    
+
 })
 
 app.get('/freelancer/project/dashboard.html', function (req, res) {
@@ -710,10 +714,10 @@ app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (
 
 
     // We should never be posting to dashboard. We post to /approve_method
-    
+
     // Prepare output in JSON format
-        // receives project_id, milestone_index
-    
+    // receives project_id, milestone_index
+
     // if (freelancers[req.session.user]['project_ids'].includes(req.body.project_id)) {
     //     projects[req.body.project_id]['milestones'][milestone_index]['freelancer_approved'] = true;
     //     console.log(response);
@@ -721,8 +725,8 @@ app.post('/freelancer/project/dashboard.html/post', urlencodedParser, function (
     //     // alert that you can't edit that project
     //     response = {};
     // }
-    
-        //TODO: fill this out
+
+    //TODO: fill this out
     res.end(JSON.stringify(response));
 })
 
@@ -757,13 +761,51 @@ app.get('/freelancer/addstripe.html', function (req, res) {
 // API STRUCTURE
 app.get('/test', function (req, res) {
     res.end(
-        'current user:  ' + req.session.user + 
-        '\ncurrent user type: ' + req.session.user_type + 
-        '\ncurrent project:  ' + req.session.project + 
-        '\nclients:     ' + JSON.stringify(clients) + 
-        '\nfreelancers: ' + JSON.stringify(freelancers) + 
+        'current user:  ' + req.session.user +
+        '\ncurrent user type: ' + req.session.user_type +
+        '\ncurrent project:  ' + req.session.project +
+        '\nclients:     ' + JSON.stringify(clients) +
+        '\nfreelancers: ' + JSON.stringify(freelancers) +
         '\nprojects:    ' + JSON.stringify(projects));
 })
+
+/*
+client.connect(function (err) {
+    //console.log("in connect function");
+    if (err) {
+        console.log("error: " + err);
+    } else {
+        
+
+        console.log("succesfully connected client");
+        lwdb = client.db("lwdb");
+        clients_db = lwdb.collection("clients");
+        cid = clients_db.find().length + 1;
+        response = {
+            id: cid,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: p,
+            project_ids: matchEmails(req.body.email),
+            timestamp: time,
+            hasPayment: false
+        };
+
+        clients_db.insert(response, (err, result) => {
+                if (err) { console.log(err); }
+                else {
+                    console.log("registered client");
+                    console.log(cid);
+                }
+            }
+        ) // end insert function
+
+        res.redirect("/client/project/" + "dashboard.html");
+
+    } // end else statement
+}); // end client insert
+*/
 
 app.get('/user_name', function (req, res) {
     if (req.session.user) {
@@ -771,10 +813,40 @@ app.get('/user_name', function (req, res) {
             res.end("");
         } else {
             if (req.session.user_type == "freelancer") {
-                res.end(freelancers[req.session.user]['firstname']);
+                client.connect(function (err) {
+                    lwdb = client.db("lwdb");
+                    freelancers_db = lwdb.collection("freelancers");
+                    //console.log("in connect function");
+                    if (err) {
+                        console.log("error: " + err);
+                    } else {
+                        freelancers_db.find(({id:req.session.user}, {firstname:1}), (err, result) => {
+                                if (err) { console.log(err); }
+                                else {
+                                    console.log("result = "+ result);
+                                    res.end(toString(result[0]));
+                                }
+                            }
+                        ) // end insert function
+                    } // end else statement
+                }); // end client insert
+                // res.end(freelancers[req.session.user]['firstname']);
             }
             else {
-                res.end(clients[req.session.user]['firstname']);
+                client.connect(function (err) {
+                    lwdb = client.db("lwdb");
+                    clients_db = lwdb.collection("clients");
+                    //console.log("in connect function");
+                    if (err) {
+                        console.log("error: " + err);
+                    } else {
+                        console.log("looking for someone with user id " + req.session.user);
+                        var r = clients_db.find({id:req.session.user},{firstname:1});
+                        console.log("found " + r.nextObject());
+                        res.end(toString(r.firstname));
+                        //) // end insert function
+                    } // end else statement
+                }); // end client insert
             }
         }
     } else {
@@ -786,7 +858,7 @@ app.get('/user_name', function (req, res) {
 
 app.get('/logged_in', function (req, res) {
     if (!req.session.user || req.session.user == -1) {
-        console.log("user (not logged in) is "+ req.session.user);
+        console.log("user (not logged in) is " + req.session.user);
         res.end("-1");
     } else {
         console.log("user is " + req.session.user);
@@ -796,7 +868,7 @@ app.get('/logged_in', function (req, res) {
 
 app.get('/projects', function (req, res) {
     var user_projects = [];
-    freelancers[req.session.user]['project_ids'].forEach(function(i) {
+    freelancers[req.session.user]['project_ids'].forEach(function (i) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
@@ -806,17 +878,17 @@ app.get('/remainingamt', function (req, res) {
     if (req.session.remaining_amount) {
         res.end(toString(req.session.remaining_amount));
     } else {
-    res.end("");
+        res.end("");
     }
 })
 
 app.get('/projectamt', function (req, res) {
     if (req.session.product) {
-    if (req.session.amount) {
-        res.end(toString(req.session.amount));
-    } else {
-    res.end("");
-    }
+        if (req.session.amount) {
+            res.end(toString(req.session.amount));
+        } else {
+            res.end("");
+        }
     } else {
         res.end("");
     }
@@ -824,7 +896,7 @@ app.get('/projectamt', function (req, res) {
 
 app.get('/client_projects', function (req, res) {
     var user_projects = [];
-    clients[req.session.user]['project_ids'].forEach(function(i) {
+    clients[req.session.user]['project_ids'].forEach(function (i) {
         user_projects.push(projects[i]);
     })
     res.end(JSON.stringify(user_projects));
@@ -853,7 +925,7 @@ app.post('/client_approve_milestone', urlencodedParser, function (req, res) {
     res.redirect("/client/project/" + "dashboard.html");
 })
 
-app.post('/token', function ( req , res) {
+app.post('/token', function (req, res) {
     console.log('body is ' + req.body);
     token = req.body.token;
     console.log('token is: ' + JSON.stringify(token));
@@ -866,7 +938,7 @@ app.get('/project', function (req, res) {
         proj = JSON.stringify(req.session.project);
         console.log("proj = ");
         console.log(proj);
-    } 
+    }
     res.end(proj);
 })
 
@@ -886,11 +958,11 @@ app.get('/fname', function (req, res) {
 function matchEmails(client_email) {
     var project_ids = [];
     if (projects != {}) {
-    Object.keys(projects).forEach(function (proj) {
-        if (client_email == projects[proj]['client_email']) {
-            project_ids.push(projects[proj]['id']);
-        }
-    })
+        Object.keys(projects).forEach(function (proj) {
+            if (client_email == projects[proj]['client_email']) {
+                project_ids.push(projects[proj]['id']);
+            }
+        })
     }
     return project_ids;
 }
